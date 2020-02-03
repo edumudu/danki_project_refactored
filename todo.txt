@@ -1,2 +1,0 @@
-- Ter apenas uma pagina para cadastro/update/list sendo carregadas dinamicamente
-- Trocar keyowrd e descrcao do site dinamicamete pelo painel
