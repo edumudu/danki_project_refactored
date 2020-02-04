@@ -1,6 +1,12 @@
 <?php
 
-class mySQL{
+namespace DevWeb\Model;
+
+use PDO;
+use Exception;
+
+class mySQL
+{
 
     private static $pdo;
     private static $schemaPdo;
@@ -35,4 +41,4 @@ class mySQL{
     }
 }
 
-?>
+// EOF

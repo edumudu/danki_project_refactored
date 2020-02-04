@@ -3,11 +3,10 @@
 
         <div class="slider">
             <?php
-                $slides = Painel::selectAll('tb_site.slides', ['name', 'slide'], null, 'order_id ASC', 0, 3);
-                foreach($slides as $value){
+                foreach($data->slides as $value){
             ?>
                 <!--title e alt otimizao para SEO-->
-                <div class="slide-img" style="background-image: url('<?php echo INCLUDE_PATH_PANEL.'uploads/'.$value['slide'];?>');"></div>
+                <div class="slide-img" style="background-image: url('<?= asset('images/uploads/'. $value['slide']) ?>');"></div>
             <?php }?>
             <div class="bullets"></div>
         </div>
@@ -21,15 +20,15 @@
         </div>
     </section><!--banner-main-->
 
-    <section id="sobre" class="descricao-author">
+    <section id="about" class="descricao-author">
         <div class="container flex space">
             <div class="c2">
-                <h2><?php echo $infoSite['name_author']; ?></h2>
-                <p><?php echo $infoSite['descricao'];?></p>
+                <h2><?= $data->name_author ?></h2>
+                <p><?= $data->description ?></p>
             </div>
 
             <div class="c2">
-                <img src="<?php echo INCLUDE_PATH;?>images/pp.jpg" />
+                <img src="<?= asset('images/pp.jpg') ?>" />
             </div>
         </div>
     </section><!--descricao-author-->
@@ -39,26 +38,26 @@
             <h2 class="title">Especialidade</h2>
             <div class="content flex">
                 <div class="box-especialidade c3">
-                    <h2><i class="<?php echo $infoSite['icone_1']; ?>"></i></h2>
+                    <h2><i class="<?= $data->icone_1 ?>"></i></h2>
                     <h3>CSS3</h3>
                     <p>
-                        <?php echo $infoSite['descricao_1']; ?>
+                        <?= $data->descricao_1 ?>
                     </p>
                 </div><!--box-especialidade-->
 
                 <div class="box-especialidade c3">
-                    <h2><i class="<?php echo $infoSite['icone_2']; ?>"></i></h2>
+                    <h2><i class="<?= $data->icone_2 ?>"></i></h2>
                     <h3>HTML5</h3>
                     <p>
-                        <?php echo $infoSite['descricao_2']; ?>
+                        <?= $data->descricao_2 ?>
                     </p>
                 </div><!--box-especialidade-->
 
                 <div class="box-especialidade c3">
-                    <h2><i class="<?php echo $infoSite['icone_3']; ?>"></i></h2>
+                    <h2><i class="<?= $data->icone_3 ?>"></i></h2>
                     <h3>Javascript</h3>
                     <p>
-                        <?php echo $infoSite['descricao_3']; ?>
+                        <?= $data->descricao_3 ?>
                     </p>
                 </div><!--box-especialidade-->
             </div><!--content-->
@@ -71,13 +70,7 @@
         <div class="c2">
             <h2 class="title">Depoimentos dos nossos clientes</h2>
 
-            <?php
-                $sql = mySQL::connect()->prepare("SELECT * FROM `tb_site.depoimentos` ORDER BY order_id ASC LIMIT 3");
-                $sql->execute();
-                $depoimentos = $sql->fetchAll();
-
-                foreach($depoimentos as $value){
-            ?>
+            <?php foreach ($data->depoimentos as $value) { ?>
             <div class="depoimento-single">
                 <p>
                 " <?php echo $value['depoimento'];?> "
@@ -90,10 +83,7 @@
         <div class="c2">
             <h2 class="title">Serviços</h2>
             <ul>
-                <?php 
-                    $sql = mySQL::connect()->query("SELECT `servico` FROM `tb_site.servicos` ORDER BY `order_id` ASC LIMIT 5");
-                    foreach($sql->fetchAll() as $value){
-                ?>
+                <?php foreach ($data->services as $value) { ?>
                     <li><?php echo $value['servico']; ?></li>
                 <?php }?>
             </ul>
