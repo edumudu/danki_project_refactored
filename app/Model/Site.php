@@ -22,7 +22,6 @@ class Site
             $ip = self::getIP();
             $data = [
                 "ip" => $ip, // Ip do usuario que esta vizualiazando
-                "ultima_acao" => date('Y-m-d H:i:s'), // Data e hora atual
                 "token" => $_SESSION['online'] // Token unico
             ];
             Painel::insert('tb_admin.online',$data);
@@ -34,10 +33,6 @@ class Site
             setcookie('visita',true, time() + (60*60*24*14)); // Cookie expira em 14 dias
             Painel::insert('tb_admin.visitas', ['ip' => self::getIP(), 'dia' => date('Y-m-d')]);
         }
-    }
-
-    public static function verificaPermissaoMenu($permissao){
-        echo $_SESSION['cargo'] >= $permissao ? '' : 'style="display:none;"';
     }
 
     public static function verificaPermissaoPage($permissao){

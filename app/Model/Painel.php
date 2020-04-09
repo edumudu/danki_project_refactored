@@ -107,18 +107,6 @@ class Painel{
         self::redirect(INCLUDE_PATH_PANEL);
     }
 
-    public static function loadpage(){
-        if($_GET['url'] !== ''){
-            $url = explode('/', $_GET['url']);
-            if(file_exists('pages/'.$url[0].'.php'))
-                include 'pages/'.$url[0].'.php';
-            else
-                self::redirect(INCLUDE_PATH_PANEL);
-        }else{
-            include('pages/home.php');
-        }
-    }
-
     /**
      * Recupera uma unica linha de dado de acordo com os parametros
      * 

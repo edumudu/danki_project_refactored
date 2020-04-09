@@ -7,5 +7,7 @@
     include 'helpers.php';
     include 'routes.php';
 
-    Route::execute($_GET['url'] ?: '/');
-?>
+    $uri = preg_replace('/\/$/', '',$_SERVER['REQUEST_URI']);
+
+    Route::execute($uri);
+?>  

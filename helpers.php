@@ -4,7 +4,10 @@ function page($file) {
     return 'pages/' . $file . '.phtml';
 }
 
-function asset($file) {
+function asset($file, $is_panel = false) {
+  if ($is_panel)
+    return INCLUDE_PATH_PANEL . $file;
+  else
     return PATH . 'public/' . $file;
 }
 

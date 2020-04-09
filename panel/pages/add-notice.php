@@ -49,7 +49,7 @@
                     <option <?php if($value['id'] == @$_POST['categoria_ref']) echo 'selected';?> value="<?php echo $value['id'];?>"><?php echo $value['name']?></option>
                 <?php }?>
             </select>
-            <input type="hidden" name="date" value="<?php echo date("Y-m-d");?>"
+            <input type="hidden" name="date" value="<?php echo date("Y-m-d");?>" />
         </div><!--form-group-->
 
         <div class="form-group">

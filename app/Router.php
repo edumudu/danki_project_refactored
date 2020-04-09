@@ -11,47 +11,42 @@ class Route
 
     public static function add($route, $options)
     {
-        $control = explode('@', $options['control']);
+      $control = explode('@', $options['control']);
 
-        // Testar iniciando a varivael no propio if
-        if (in_array($route, array_keys(self::$routes))){
-            $this_route = self::$routes[$route];
-            if ($this_route['request'] === $options['request']) return;
-            $route .= '-post';
-        };
+      // Testar iniciando a varivael no propio if
+      if (in_array($route, array_map(function($r) { return $r['uri']; }, self::$routes)) &&
+          in_array($options['request'], array_map(function($r) { return $r['request']; }, self::$routes))
+        ){
+          return;
+      };
 
-
-        self::$routes[$route] = [
-            'control' => $control[0],
-            'method'  => $control[1] ?? 'execute',
-            'request' => $options['request'] ?? 'get'
-        ];
-
+      self::$routes[] = [
+        'uri'     => $route,
+        'control' => $control[0],
+        'method'  => $control[1] ?? 'execute',
+        'request' => $options['request'] ?? 'GET'
+      ];
     }
 
     public static function add_post($route, $options)
     {
-        self::add($route, array_merge($options, ['request' => 'post']));
+      self::add($route, array_merge($options, ['request' => 'POST']));
     }
 
     public function execute($url)
     {
-        
+      $page = array_filter(self::$routes, function ($value) use ($url) {
+        return $value['uri'] === $url && $value['request'] === $_SERVER['REQUEST_METHOD'];
+      }) ?? NULL;
 
-        // Para impedir que paginas post sejam consideradas como conteudo para ser carregado
-        $real_pages = array_filter(self::$routes, function($value){ return $value['request'] === 'get'; });
-        if (!in_array($url, array_keys($real_pages)))
-            self::redirect('page-not-found');
-        
-        // Para paginas adicionadas como post
-        if (!empty($_POST)) 
-            $url .= '-post';
+      $page = array_shift($page);
 
-        $route_op = self::$routes[$url];
+      if (!$page)
+        self::redirect('page-not-found');
 
-        $controller = '\DevWeb\Control\\' . $route_op['control'];
-        $controller = new $controller;
-        $controller->{$route_op['method']}($_POST ?? null);
+      $controller = '\DevWeb\Control\\' . preg_replace('/\//', '\\', $page['control']);
+      $controller = new $controller;
+      $controller->{$page['method']}($_POST ?? null);
     }
 
     public function redirect($url)

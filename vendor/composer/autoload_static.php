@@ -21,9 +21,12 @@ class ComposerStaticInit6d4ffbd8d16d3fc89e7fc84eee30585f
     );
 
     public static $classMap = array (
+        'DevWeb\\Control\\ContactController' => __DIR__ . '/../..' . '/app/Control/ContactController.php',
         'DevWeb\\Control\\Controller' => __DIR__ . '/../..' . '/app/Control/Controller.php',
         'DevWeb\\Control\\HomeController' => __DIR__ . '/../..' . '/app/Control/HomeController.php',
+        'DevWeb\\Control\\NewsController' => __DIR__ . '/../..' . '/app/Control/NewsController.php',
         'DevWeb\\Control\\NotFoundController' => __DIR__ . '/../..' . '/app/Control/NotFoundController.php',
+        'DevWeb\\Model\\Site' => __DIR__ . '/../..' . '/app/Model/Site.php',
         'DevWeb\\Model\\Usuario' => __DIR__ . '/../..' . '/app/Model/Usuario.php',
         'DevWeb\\Model\\mySQL' => __DIR__ . '/../..' . '/app/Model/mySQL.php',
         'DevWeb\\Route' => __DIR__ . '/../..' . '/app/Router.php',

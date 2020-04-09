@@ -6,31 +6,19 @@
     session_start();
     date_default_timezone_set('America/Sao_Paulo');
 
-    define('PATH', 'http://localhost/Curso_Desenvolvimento_Web_Completo/Projetos/Projeto_01/');
+    define('PATH', 'http://localhost:8000/');
     define('INCLUDE_PATH_PANEL', PATH.'panel/');
 
     define('BASE_DIR_PANEL', __DIR__.'/panel/');
 
     //Database
-    define('HOST','localhost');
+    define('HOST','127.0.0.1');
     define('USER','root');
-    define('PASSWORD','');
+    define('PASSWORD','password');
     define('DATABASE','projeto_01');
 
     //Constantes para o painle de controle
     define('NOME_EMPRESA','Danki Code');    
-
-    //Funcoes do painel
-    function getCargo($cargo){
-        return Painel::$cargos[$cargo];
-    }
-
-    function selectedMenu($par){
-        $url = explode('/',@$_GET['url'])[0];
-        if($url == $par){
-            echo 'class="active"';
-        }
-    }
 
     function recoverPost($key){
         if(isset($_POST[$key])){

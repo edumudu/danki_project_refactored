@@ -6,9 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'DevWeb\\Control\\ContactController' => $baseDir . '/app/Control/ContactController.php',
     'DevWeb\\Control\\Controller' => $baseDir . '/app/Control/Controller.php',
     'DevWeb\\Control\\HomeController' => $baseDir . '/app/Control/HomeController.php',
+    'DevWeb\\Control\\NewsController' => $baseDir . '/app/Control/NewsController.php',
     'DevWeb\\Control\\NotFoundController' => $baseDir . '/app/Control/NotFoundController.php',
+    'DevWeb\\Model\\Site' => $baseDir . '/app/Model/Site.php',
     'DevWeb\\Model\\Usuario' => $baseDir . '/app/Model/Usuario.php',
     'DevWeb\\Model\\mySQL' => $baseDir . '/app/Model/mySQL.php',
     'DevWeb\\Route' => $baseDir . '/app/Router.php',
