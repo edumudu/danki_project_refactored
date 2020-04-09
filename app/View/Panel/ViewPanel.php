@@ -6,7 +6,7 @@ class ViewPanel
 {
     protected $page_head = "templates/head";
     protected $header = "templates/header";
-    protected $aside = "../main";
+    protected $aside = "../aside";
     protected $footer = "templates/footer";
     protected $page = "";
 

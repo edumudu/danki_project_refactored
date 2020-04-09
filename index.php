@@ -7,7 +7,7 @@
     include 'helpers.php';
     include 'routes.php';
 
-    $uri = preg_replace('/\/$/', '',$_SERVER['REQUEST_URI']);
+    $uri = strlen($_SERVER['REQUEST_URI']) > 1 ? preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
 
     Route::execute($uri);
 ?>  
