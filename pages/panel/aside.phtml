@@ -17,7 +17,7 @@
               </div><!--avatar-user-->
               <?php }else{ ?>
                   <div class="img-user">
-                      <img src="<?= INCLUDE_PATH_PANEL.'uploads/'.$_SESSION['img'];?>" />
+                      <img src="<?= asset('uploads/' . $_SESSION['img']); ?>" />
                   </div><!--avatar-user-->
               <?php } ?>
 
@@ -33,7 +33,7 @@
                 <?php
                   foreach ($data->menus as $key => $values) {
                 ?>
-                  <li><a href="<?= INCLUDE_PATH_PANEL . $value['path'] ?>"><?= $values['text'] ?></a></li>
+                  <li><a href="<?= INCLUDE_PATH_PANEL . $values['path'] ?>"><?= $values['text'] ?></a></li>
                 <?php } ?>
               </ul>
 
@@ -71,7 +71,7 @@
 
           <div class="icons-header">
               <div class="btn-home">
-                  <a class="<?= $_GET['url'] == '' ? 'active' : '';?>" href="<?= INCLUDE_PATH_PANEL?>"><i class="fas fa-home"></i> <span>Página inicial</span></a>
+                  <a class="<?= $data->current_page == '' ? 'active' : '';?>" href="<?= INCLUDE_PATH_PANEL?>"><i class="fas fa-home"></i> <span>Página inicial</span></a>
               </div><!--btn-home-->
 
               <div class="logout">

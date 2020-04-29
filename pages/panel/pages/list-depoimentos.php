@@ -19,7 +19,7 @@
     // A partir de qual parametro se deve pegar
     $total = count(Painel::selectAll($tb, ['id'])) / $porPag;
     $depoimentos = Painel::selectAll($tb,['*'] , null, 'order_id ASC', ($paginaAtual - 1) * $porPag, $porPag);
-    $columns = mySQL::getColumnsName($tb);
+    $columns = mySQL::getColumnsStats($tb);
 ?>
 
 <section class="box-content b1">

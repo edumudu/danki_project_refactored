@@ -1,16 +1,12 @@
 <?php 
-    $tb = 'tb_site.categorias';
-    $page = 'list-categorias';
-    $porPag = 10;
+    $tb = 'tb_site.noticias';
+    $page = 'list-notices';
+    $porPag = 5;
 
     if(isset($_GET['excluir'])){
         Site::verificaPermissaoAcao(1);
         $id = (int)$_GET['excluir'];
-        $noticias = Painel::selectAll('tb_site.noticias',['*'], ['categoria_ref' => $id]);
-        foreach($noticias as $value){
-            Painel::deleteRegistro('tb_site.noticias', ['id' => $value['id']], 'capa');
-        }
-        Painel::deleteRegistro($tb, ['id' => $id]);
+        Painel::deleteRegistro($tb, ['id' => $id], 'capa');
         Painel::redirect(INCLUDE_PATH_PANEL.$page);
     }else if(isset($_GET['order'])){
         Painel::orderItem($tb,$_GET['order'],$_GET['id']);
@@ -19,13 +15,14 @@
 
     $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
     // A partir de qual parametro se deve pegar
-    $total = count(Painel::selectAll($tb, ['id'])) / $porPag;
+    $total = count(Painel::selectAll($tb,['id'])) / $porPag;
     $sqlResult = Painel::selectAll($tb, ['*'], null, 'order_id ASC', ($paginaAtual - 1) * $porPag, $porPag);
-    $columns = mySQL::getColumnsName($tb);
+    $columns = mySQL::getColumnsStats($tb);
+    
 ?>
 
 <section class="box-content b1">
-    <h2><i class="fas fa-id-card-alt"></i> Categorias Cadastradas</h2>
+    <h2><i class="fas fa-id-card-alt"></i> Slides cadastrados</h2>
 
     <div class="table-wrapper">
         <table>
@@ -33,7 +30,7 @@
                 <tr>
                     <?php 
                         foreach($columns as $value){
-                            if($value['COLUMN_NAME'] !== 'id' && $value['COLUMN_NAME'] !== 'order_id')
+                            if($value['COLUMN_NAME'] !== 'id' && $value['COLUMN_NAME'] !== 'order_id' && $value['COLUMN_NAME'] !== 'slug')
                                 echo "<th>".ucfirst($value['COLUMN_NAME'])."</th>";
                         }
                     ?>
@@ -43,19 +40,21 @@
                 </tr>
             </thead>
             <tbody>
-                    <?php foreach($sqlResult as $value){
+                    <?php
+                        foreach($sqlResult as $value){
+                        $value['categoria_ref'] = Painel::selectSingle('tb_site.categorias', ['id' => $value['categoria_ref']])['name'];
                         echo "<tr>";
                         foreach($value as $key => $col){
-                            if(is_string($key) && $key !== 'id' && $key !== 'order_id'){
-                                if($key == "slide"){
-                                    echo "<td><img src='".INCLUDE_PATH_PANEL.'uploads/'.$value['slide']."' /></td>";
+                            if(is_string($key) && $key !== 'id' && $key !== 'order_id' && $key !== 'slug'){
+                                if($key == "capa"){
+                                    echo "<td><img src='".INCLUDE_PATH_PANEL.'uploads/'.$value['capa']."' /></td>";
                                     continue;
                                 }
                     ?>
-                            <td><?php echo $col; ?></td>
+                            <td><?php echo substr(strip_tags($col),0,200).'...'; ?></td>
                     <?php }} ?>
 
-                        <td <?php Site::verificaPermissaoMenu(1); ?>><a class="btn-edit" href="<?php echo INCLUDE_PATH_PANEL.'edit-categoria?id='.$value['id']; ?>"><i class="fas fa-edit"></i> Editar</a></td>
+                        <td <?php Site::verificaPermissaoMenu(1); ?>><a class="btn-edit" href="<?php echo INCLUDE_PATH_PANEL.'edit-notice?id='.$value['id']; ?>"><i class="fas fa-edit"></i> Editar</a></td>
                         <td <?php Site::verificaPermissaoMenu(1); ?>><a class="btn-delete" href="<?php echo INCLUDE_PATH_PANEL.$page.'?excluir='.$value['id']; ?>"><i class="fas fa-trash-alt"></i> Excluir</a></td>
                         <td><div class="order-wrapper">
                             <a href="<?php echo INCLUDE_PATH_PANEL.$page.'?pagina='.$paginaAtual.'&order=up&id='.$value['id']; ?>"><i class="fas fa-angle-up"></i></a>
