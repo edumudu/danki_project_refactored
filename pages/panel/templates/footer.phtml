@@ -1,0 +1,26 @@
+      </main>
+    </div>
+</div>
+
+<script src="<?= asset('js/jquery-3.4.1.min.js'); ?>"></script>
+<script src="<?= asset('js/jquery.mask.js'); ?>"></script>
+<script src="<?= asset('js/panel/main.js'); ?>"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="<?= asset('js/panel/jquery.form.min.js'); ?>"></script>
+<script src="<?= asset('js/panel/helperMask.js'); ?>"></script>
+<script src="<?= asset('js/panel/ajax.js'); ?>"></script>
+
+<?php
+
+// Painel::loadJS(['clients.js'], 'list-clients',);
+
+?>
+
+<script>
+    tinymce.init({
+        selector: '.tinymce',
+        plugins: 'image',
+        height: 300,
+        menubar: 'insert'
+    });
+</script>

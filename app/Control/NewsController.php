@@ -9,7 +9,7 @@ class NewsController extends Controller
 {
     private $por_pag = 10;
 
-    public function execute()
+    public function index()
     {
         // Pega informações necessarias para a pagina
 

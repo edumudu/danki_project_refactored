@@ -6,7 +6,7 @@ use DevWeb\Model\Painel;
 
 class HomeController extends Controller
 {
-    public function execute() 
+    public function index() 
     {
         // Renderiza a view
         $this->view('Home')
@@ -17,14 +17,12 @@ class HomeController extends Controller
     {
         $view = $this->view('Home');
         $view->render('home', $this->get_info());
-        //$view->scroll('#about');
     }
 
     public function servicos()
     {
         $view = $this->view('Home');
         $view->render('home', $this->get_info());
-        //$view->scroll('#about');
     }
 
     public function get_info()

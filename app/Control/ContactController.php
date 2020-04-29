@@ -4,7 +4,7 @@ namespace DevWeb\Control;
 
 class ContactController extends Controller
 {
-    public function execute()
+    public function index()
     {
         $view = $this->view('View');
         $view->add_script('initMap.js');

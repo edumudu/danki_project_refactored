@@ -1,12 +1,12 @@
 <?php 
-    $tb = 'tb_site.noticias';
-    $page = 'list-notices';
+    $tb = 'tb_site.slides';
+    $page = 'list-slides';
     $porPag = 5;
 
     if(isset($_GET['excluir'])){
         Site::verificaPermissaoAcao(1);
         $id = (int)$_GET['excluir'];
-        Painel::deleteRegistro($tb, ['id' => $id], 'capa');
+        Painel::deleteRegistro($tb, ['id' => $id], 'slide');
         Painel::redirect(INCLUDE_PATH_PANEL.$page);
     }else if(isset($_GET['order'])){
         Painel::orderItem($tb,$_GET['order'],$_GET['id']);
@@ -17,8 +17,7 @@
     // A partir de qual parametro se deve pegar
     $total = count(Painel::selectAll($tb,['id'])) / $porPag;
     $sqlResult = Painel::selectAll($tb, ['*'], null, 'order_id ASC', ($paginaAtual - 1) * $porPag, $porPag);
-    $columns = mySQL::getColumnsName($tb);
-    
+    $columns = mySQL::getColumnsStats($tb);
 ?>
 
 <section class="box-content b1">
@@ -30,7 +29,7 @@
                 <tr>
                     <?php 
                         foreach($columns as $value){
-                            if($value['COLUMN_NAME'] !== 'id' && $value['COLUMN_NAME'] !== 'order_id' && $value['COLUMN_NAME'] !== 'slug')
+                            if($value['COLUMN_NAME'] !== 'id' && $value['COLUMN_NAME'] !== 'order_id')
                                 echo "<th>".ucfirst($value['COLUMN_NAME'])."</th>";
                         }
                     ?>
@@ -40,21 +39,19 @@
                 </tr>
             </thead>
             <tbody>
-                    <?php
-                        foreach($sqlResult as $value){
-                        $value['categoria_ref'] = Painel::selectSingle('tb_site.categorias', ['id' => $value['categoria_ref']])['name'];
+                    <?php foreach($sqlResult as $value){
                         echo "<tr>";
                         foreach($value as $key => $col){
-                            if(is_string($key) && $key !== 'id' && $key !== 'order_id' && $key !== 'slug'){
-                                if($key == "capa"){
-                                    echo "<td><img src='".INCLUDE_PATH_PANEL.'uploads/'.$value['capa']."' /></td>";
+                            if(is_string($key) && $key !== 'id' && $key !== 'order_id'){
+                                if($key == "slide"){
+                                    echo "<td><img src='".INCLUDE_PATH_PANEL.'uploads/'.$value['slide']."' /></td>";
                                     continue;
                                 }
                     ?>
-                            <td><?php echo substr(strip_tags($col),0,200).'...'; ?></td>
+                            <td><?php echo $col; ?></td>
                     <?php }} ?>
 
-                        <td <?php Site::verificaPermissaoMenu(1); ?>><a class="btn-edit" href="<?php echo INCLUDE_PATH_PANEL.'edit-notice?id='.$value['id']; ?>"><i class="fas fa-edit"></i> Editar</a></td>
+                        <td <?php Site::verificaPermissaoMenu(1); ?>><a class="btn-edit" href="<?php echo INCLUDE_PATH_PANEL.'edit-slides?id='.$value['id']; ?>"><i class="fas fa-edit"></i> Editar</a></td>
                         <td <?php Site::verificaPermissaoMenu(1); ?>><a class="btn-delete" href="<?php echo INCLUDE_PATH_PANEL.$page.'?excluir='.$value['id']; ?>"><i class="fas fa-trash-alt"></i> Excluir</a></td>
                         <td><div class="order-wrapper">
                             <a href="<?php echo INCLUDE_PATH_PANEL.$page.'?pagina='.$paginaAtual.'&order=up&id='.$value['id']; ?>"><i class="fas fa-angle-up"></i></a>

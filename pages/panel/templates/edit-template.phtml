@@ -1,0 +1,47 @@
+<section class="box-content b1">
+    <h2><i class="fas fa-user-edit"></i> Editar Depoimento</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <?php
+            // if(isset($_POST['acao'])){
+            //     $_POST['date'] = date('Y-m-d');
+            //     if(Painel::update($tb, $_POST, ['id' => $id])){
+            //         Painel::alert('success','Depoimento atualizado com sucesso.');
+            //         $depoimento = Painel::selectSingle('tb_site.depoimentos', ['id' => $id]);
+            //     }else
+            //         Painel::alert('error','Campos vazios não são permitidos.');
+            // }
+        ?>
+
+        <?php foreach ($data->columns as $value) { ?>
+          <div class="form-group">
+              <label>
+                <?= ucfirst($value['COLUMN_NAME']) ?>:
+
+                <?php if ($value['COLUMN_TYPE'] === 'longtext' || $value['COLUMN_TYPE'] === 'text') { ?>
+                  <textarea
+                    id="name"
+                    type="text"
+                    name="<?= $value['COLUMN_NAME'] ?>"
+                    required
+                  >
+                    <?= $data->item[$value['COLUMN_NAME']] ?>
+                  </textarea>
+                <?php } else { ?>
+                  <input
+                    id="name"
+                    type="text"
+                    name="<?= $value['COLUMN_NAME'] ?>"
+                    value="<?= $data->item[$value['COLUMN_NAME']] ?>"
+                    required
+                  />
+                <?php } ?>
+              </label>
+          </div><!--form-group-->
+        <?php } ?>
+
+        <div class="form-group">
+            <input class="btn-form" type="submit" name="acao" value="Atualizar" />
+        </div><!--form-group-->
+    </form>
+</section><!--box-content-->

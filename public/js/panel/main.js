@@ -31,8 +31,16 @@ $(function(){
     });
 
     $('.btn-delete').click(function(e){
-        if(!confirm("Você realmente deseja excluir este item?")){
-            e.preventDefault();
-        }
+      e.preventDefault();
+
+      if(confirm("Você realmente deseja excluir este item?")){
+        $.ajax({
+          url: `${location.href}?excluir=${$(this).attr('id-ref')}`,
+          method: 'delete',
+          success () {
+            location.reload()
+          }
+        })
+      }
     })
 })
