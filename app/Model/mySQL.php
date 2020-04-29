@@ -26,14 +26,14 @@ class mySQL
         return self::$pdo;
     }
 
-    public static function getColumnsName($tb){
+    public static function getColumnsStats($tb){
         try{    
             self::$schemaPdo = new PDO(
                 'mysql:host='.HOST.';dbname=INFORMATION_SCHEMA', USER, PASSWORD,
                 array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
             );
             self::$schemaPdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return self::$schemaPdo->query("SELECT `COLUMN_NAME` FROM `COLUMNS` WHERE `TABLE_NAME` = '$tb'")->fetchAll();
+            return self::$schemaPdo->query("SELECT `COLUMN_NAME`, `COLUMN_TYPE` FROM `COLUMNS` WHERE `TABLE_NAME` = '$tb'")->fetchAll();
         }catch(Exception $e){
             echo "Erro ao conectar ao banco de dados";
             return false;

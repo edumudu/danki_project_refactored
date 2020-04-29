@@ -4,10 +4,10 @@ namespace DevWeb\View\Panel;
 
 class ViewPanel
 {
-    protected $page_head = "templates/head";
-    protected $header = "templates/header";
-    protected $aside = "../aside";
-    protected $footer = "templates/footer";
+    protected $page_head = "panel/templates/head";
+    protected $header = "panel/templates/header";
+    protected $aside = "panel/aside";
+    protected $footer = "panel/templates/footer";
     protected $page = "";
 
     protected $default_data = [
@@ -26,8 +26,7 @@ class ViewPanel
 
         include page($this->page_head);
         include page($need_aside ? $this->aside : '');
-        // include page($this->header);
-        include page($page);
+        include page('panel/' . $page);
         include page($this->footer);
     }
 

@@ -8,7 +8,7 @@ use DevWeb\Model\Painel;
 
 class PanelHomeController extends ControllerPanel
 {
-  public function execute()
+  public function index()
   {
     $view = $this->view('Panel\\ViewPanel');
     $view->render('home', [
@@ -18,7 +18,7 @@ class PanelHomeController extends ControllerPanel
       'totalVisitas'        => count(Painel::selectAll('tb_admin.visitas')),
       'visitasHoje'         => count(Painel::selectAll('tb_admin.visitas', ['id'], ['dia' => date('Y-m-d')])),
       'menus'               => $this->menus_actives,
-      'cargo_text'          => $cargo_text
+      'cargo_text'          => $this->cargo_text
     ]);
   }
 }

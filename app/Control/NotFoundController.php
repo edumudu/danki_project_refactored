@@ -4,7 +4,7 @@ namespace DevWeb\Control;
 
 class NotFoundController extends Controller
 {
-    public function execute()
+    public function index()
     {
         $view = $this->view('View');
         $view->render('page-404', [

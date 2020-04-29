@@ -202,7 +202,7 @@ class Painel{
     public static function uploadFile($file){
         $fileFormat = explode('/', $file['type']);
         $imgName = uniqid().'.'.$fileFormat[count($fileFormat) - 1];
-        if(move_uploaded_file($file['tmp_name'], BASE_DIR_PANEL.'/uploads/'.$imgName))
+        if(move_uploaded_file($file['tmp_name'], BASE_DIR . '/public/images/uploads/' . $imgName))
             return $imgName;
         return false;
     }
@@ -213,7 +213,7 @@ class Painel{
      */
 
     public static function deleteFile($file){
-        @unlink(BASE_DIR_PANEL.'/uploads/'.$file);
+        @unlink(BASE_DIR . '/public/images/uploads/' . $file);
     }
 
     /**
