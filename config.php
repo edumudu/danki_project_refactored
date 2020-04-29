@@ -9,7 +9,7 @@
     define('PATH', 'http://localhost:8000/');
     define('INCLUDE_PATH_PANEL', PATH.'panel/');
 
-    define('BASE_DIR_PANEL', __DIR__.'/panel/');
+    define('BASE_DIR', __DIR__);
 
     //Database
     define('HOST','127.0.0.1');
