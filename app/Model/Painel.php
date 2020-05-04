@@ -6,22 +6,8 @@ use PDO;
 use DevWeb\Model\mySQL;
 
 class Painel{
-
-    private static $acceptImgsTypes = [
-        'image/jpg',
-        'image/jpeg',
-        'image/png',
-        'image/gif'
-    ];
-
-    public static $cargos = [
-        'Normal',
-        'Subadministrador',
-        'Administrador'
-    ];
-
     public static function loadJS($files, $page){
-        $url = explode('/', @$_GET['url'])[0];
+        $url = explode('/', $_GET['url'])[0];
         if($page == $url){
             foreach($files as $file){
                 echo "<script src='".INCLUDE_PATH_PANEL."js/$file'></script>";
@@ -51,82 +37,11 @@ class Painel{
     }
 
     /**
-     * Constroi uma query select com base nas colunas e tabel recebida
-     * 
-     * @param string $tb Nome da table alvo.
-     * @param array $columns Nome das colunas que se deseja resgatar
-     * 
-     * @return string Query select Pronta
-     */
-
-    public static function buildQuerySelect($tb, $columns = ['*']){
-        $totalColumns = count($columns);
-        $query = "SELECT ";
-
-        foreach($columns as $key => $value){
-            $query .= $key == $totalColumns - 1 ? " `$value` " : " `$value`, ";
-        }
-        return preg_replace('/(`\*`)/', '*', $query." FROM `$tb`");
-    }
-
-    /**
-     * Cria a parte do WHERE de uma consulta baseado nas colunas passadas
-     * 
-     * @param array $columns Nome das colunas
-     * @param string $operator [optional] informa qual operador deve ser usado para query
-     * 
-     * @return string Parte WHERE pronta preparada contra mysql injection
-     */
-    public static function buildQueryWhere($columns, $operator = '='){
-        $total = count($columns);
-        $query = " WHERE ";
-        foreach($columns as $key => $value){
-            if($value == '') return false;
-            $query .= $total - 1 == $key ? "`$value` $operator :$value " : "`$value` $operator :$value AND ";
-        }
-        return $query;
-    }
-
-    /**
      * @return bool Retorna true se a sessao login existe e flse se não
      */
 
     public static function logado(){
         return isset($_SESSION['login']);
-    }
-    /**
-     * Destroi as sessões e cookies 
-     * @return void
-     */
-
-    public static function logout(){
-        session_destroy();
-        setcookie('lembrar',null, time() - 1, '/');
-        setcookie('user', null, time() - 1, '/');
-        setcookie('password', null, time() - 1, '/');
-        self::redirect(INCLUDE_PATH_PANEL);
-    }
-
-    /**
-     * Recupera uma unica linha de dado de acordo com os parametros
-     * 
-     * @param string $tb Nome da table alvo
-     * @param array $where Um dicionario com o nome da coluna como chave e valor associado
-     * @param array $columns Colunas que desejam ser resgatadas
-     * 
-     * @return array O resultado da pesquisa em forma de array ou false caso falhe
-     */
-
-    public static function selectSingle($tb, $where, $columns = ['*']){
-        $query = self::buildQuerySelect($tb,$columns);
-        $query .= self::buildQueryWhere(array_keys($where));
-
-        $sql = mySQL::connect()->prepare($query);
-
-        if($sql->execute($where)){
-            return $sql->fetch();
-        }
-        return false;
     }
 
     /**
@@ -168,11 +83,6 @@ class Painel{
         return $sql->fetchAll();
     }
 
-    public static function limparUsersOnline(){
-        $date = date('Y-m-d H:i:s');
-        $sql = mySQL::connect()->exec("DELETE FROM `tb_admin.online` WHERE `ultima_acao` < '$date' - INTERVAL 1 MINUTE");
-    }
-
     /**
      * @param string $type Uma string informando o tipo de alerta que eu desejo imprimir
      * @param string $message Uma string contendo ao menssagem Quer eu devo imprimir
@@ -189,31 +99,6 @@ class Painel{
                 echo '<div class="error"><i class="fas fa-exclamation-circle"></i> '.$message.'</div>';
                 break;
         }
-    }
-
-    public static function validImg($img, $maxSize = 300){
-        if(in_array($img['type'], self::$acceptImgsTypes)){
-            $size = intval($img['size']/1024); // Converte de Bytes para Kb o tamanho da imagem e verifica seu tamanho arredondado
-            return $size < $maxSize; 
-        }
-        return false;
-    }
-
-    public static function uploadFile($file){
-        $fileFormat = explode('/', $file['type']);
-        $imgName = uniqid().'.'.$fileFormat[count($fileFormat) - 1];
-        if(move_uploaded_file($file['tmp_name'], BASE_DIR . '/public/images/uploads/' . $imgName))
-            return $imgName;
-        return false;
-    }
-
-    /**
-     * @param string $file Uma string contendo o nome do arquivo
-     * @return void
-     */
-
-    public static function deleteFile($file){
-        @unlink(BASE_DIR . '/public/images/uploads/' . $file);
     }
 
     /**
@@ -270,23 +155,6 @@ class Painel{
         return $sql->execute(array_merge($values, $where));
     }
 
-    /**
-     * @param string $tb Uma string contendo a tabela alvo
-     * @param array $where Um array contendo chave e valor associado
-     * @return bool Retorna o item se existir e false se não existir
-     */
-    public static function equalsExisist($tb, $where, $id = null){
-        if(isset($id)){
-            $query = self::buildQuerySelect($tb).self::buildQueryWhere(array_keys($where)).' AND `id` != :id';
-            $sql = mySQL::connect()->prepare($query);
-            $sql->execute(array_merge($where, ['id' => $id]));
-            $item = $sql->fetch();
-        }else{
-            $item = self::selectSingle($tb, $where);
-        }
-        return $item ? $item : false;
-    }
-
     public static function deleteRegistro($tb, $where = null, $img = false){
         if($where){
             $sql = mySQL::connect()->prepare("DELETE FROM `$tb` ".self::buildQueryWhere(array_keys($where)));
@@ -301,10 +169,6 @@ class Painel{
             return $sql->execute($where);
         else
             return $sql->execute();
-    }
-
-    public static function redirect($url){
-        die('<script>location.href = "'.$url.'";</script>');
     }
 
     public static function cleanUrlJs($url){

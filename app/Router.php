@@ -50,7 +50,7 @@ class Route
       $page = array_shift($page);
 
       if (!$page)
-        self::redirect('page-not-found');
+        self::redirect('/page-not-found');
 
       $controller = '\DevWeb\Control\\' . preg_replace('/\//', '\\', $page['control']);
       $controller = new $controller;
