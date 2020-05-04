@@ -2,8 +2,9 @@
 
 namespace DevWeb\Control;
 
-use DevWeb\Model\Painel;
-use DevWeb\Route;
+use DevWeb\Model\Category;
+use DevWeb\Model\Notice;
+use DevWeb\Model\Site;
 
 class NewsController extends Controller
 {
@@ -11,30 +12,32 @@ class NewsController extends Controller
 
     public function index()
     {
-        // Pega informações necessarias para a pagina
+      $category = new Category;
+      $notice = new Notice;
+      $site = new Site;
 
-        $info = [
-            'title'       => 'Noticias',
-            'info_author' => Painel::selectSingle('tb_site.config', ['id' => 1], ['name_author', 'descricao']),
-            'categorias'  => Painel::selectAll('tb_site.categorias', ['*'], null, 'order_id ASC'),
-            'noticias'     => Painel::selectAll('tb_site.noticias', ['*'], null, 'date ASC')
-        ];
+      $info = [
+        'title'       => 'Noticias',
+        'info_author' => $site->selectSingle(['id' => 1], ['name_author', 'descricao']),
+        'categorias'  => $category->selectAll(['*'], null, 'order_id ASC'),
+        'noticias'     => $notice->selectAll(['*'], null, 'date ASC')
+      ];
 
-        $view = $this->view('View');
-        $view->add_script('news.js');
-        $view->render('news', $info);
+      $view = $this->view('View');
+      $view->add_script('news.js');
+      $view->render('news', $info);
     }
 
     public function redirect_to_single($post)
     {
-        $search_val = $post['parametro']; 
-        
-        Route::redirect('news/' . $search_val);
+      $search_val = $post['parametro']; 
+      
+      self::redirect('/news/' . $search_val);
     }
 
     public function search($category)
     {
-        print_r($category);
+      print_r($category);
     }
 }
 

@@ -2,14 +2,56 @@
 
 namespace DevWeb\Control\Panel;
 
-use DevWeb\Model\Painel;
-use DevWeb\Model\Usuario;
+use DevWeb\Model\File;
+use DevWeb\Model\User;
 
 class UserController extends ControllerPanel
 {
-  protected $tb = 'tb_admin.users';
-  protected $used_fields = ['user', 'name', 'img', 'password', 'cargo'];
-  protected $base_uri = 'user';
+  protected $base_uri = '/user';
+  protected $image_field = 'img';
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->user = new User;
+  }
+
+  public function create ()
+  {
+    if ( $this->cargo <= $this->edit_level )
+      return;
+
+    $view = $this->view('Panel\\ViewPanel');
+
+    $view->render('templates/create-template', [
+      "title"     => 'Create user',
+      "menus"     => $this->menus_actives,
+      "columns"   => $this->user->getFields(),
+      "img_field" => $this->image_field
+    ]);
+  }
+
+  public function store ()
+  {
+    if (!isset($_POST)) return;
+
+    $img = $_FILES[$this->image_field];
+
+    if (!File::validImg($img)) {
+      return;
+    }
+    
+    $img = File::uploadFile($img);
+    $data['name'] = $_POST['name'];
+    $data['user'] = $_POST['user'];
+    $data['password'] = $_POST['password'];
+    $data['cargo'] = $_POST['cargo'];
+    $data[$this->image_field] = $img ?: null;
+
+    $this->user->insert($data);
+
+    return self::redirect('/panel' . $this->base_uri . '/create');
+  }
 
   public function edit ()
   {
@@ -19,41 +61,32 @@ class UserController extends ControllerPanel
     $view = $this->view('Panel\\ViewPanel');
 
     $view->render('templates/edit-template', [
-      "menus"   => $this->menus_actives,
-      "columns" => $this->getUsedFields(),
-      "item"    => $_SESSION
+      "menus"     => $this->menus_actives,
+      "columns"   => $this->user->getFields(),
+      "item"      => $_SESSION,
+      "img_field" => $this->image_field
     ]);
   }
 
   public function update ()
   {
-    $queryOk = true;
+    $img = $_FILES[$this->image_field];
 
-    $data = (object)array_filter($_POST, fn($key) => in_array($key, $this->used_fields), ARRAY_FILTER_USE_KEY);
-    unset($data['img']);
-
-    $img = $_FILES['img']['name'] ? $_FILES['img'] : $_POST['img_atual'];
-
-    if(is_array($img)){
-      if(Painel::validImg($img)){
-        $img = Painel::uploadFile($img);
-        if(!$img) $queryOk = false;
-        else Painel::deleteFile($_POST['img_atual']);
-      }else{
-        $queryOk = false;
-        Painel::alert('error','O formato da imagem não é valido.');
-      } 
+    if (!File::validImg($img)) {
+      return;
     }
-    
-    if($queryOk){
-        $user = new Usuario;
-        if($user->updateUser($data->name, $data->password, $img)){
-            Painel::alert('success','Atualizado com sucesso!');
-            $_SESSION['img'] = $img;
-        }
-        else
-            Painel::alert('error','Ocorreu um erro ao atualizar.'); 
+
+    $img = File::uploadFile($img);
+    $data['name'] = $_POST['name'];
+    $data['user'] = $_POST['user'];
+    $data['password'] = $_POST['password'];
+    $data['cargo'] = $_POST['cargo'];
+    $data['img'] = $img;
+    if($this->user->update($data, ['id' => $_SESSION['id']])) {
+      $_SESSION['img'] = $img;
     }
+
+    self::redirect(INCLUDE_PATH_PANEL);
   }
 }
 
