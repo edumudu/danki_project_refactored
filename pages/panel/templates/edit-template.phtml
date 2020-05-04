@@ -14,7 +14,7 @@
         ?>
 
         <?php foreach ($data->columns as $value) { ?>
-          <div class="form-group">
+          <div class="form-group <?= $value['COLUMN_NAME'] === $data->img_field ? 'file' : '' ?>">
               <label>
                 <?= ucfirst($value['COLUMN_NAME']) ?>:
 
@@ -27,6 +27,10 @@
                   >
                     <?= $data->item[$value['COLUMN_NAME']] ?>
                   </textarea>
+                <?php } else if (isset($data->img_field) && $value['COLUMN_NAME'] === $data->img_field) { ?>
+                  <label class="fake-file">Upload
+                    <input type="file" accept="image/*" name="<?= $value['COLUMN_NAME'] ?>" />
+                  </label>
                 <?php } else { ?>
                   <input
                     id="name"

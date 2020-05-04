@@ -34,6 +34,10 @@
                       echo "<tr>";
                       foreach($value as $key => $col){
                         if(is_string($key) && $key !== 'id' && $key !== 'order_id'){
+                          if(isset($data->img_field) && $key === $data->img_field){
+                            echo "<td><img src='". asset('/images/uploads/' . $value['slide']) ."' /></td>";
+                            continue;
+                          }
                     ?>
                           <td><?php echo $col; ?></td>
                     <?php }} ?>
