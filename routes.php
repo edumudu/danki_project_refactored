@@ -1,61 +1,73 @@
 <?php
 
-use DevWeb\Route;
+use DevWeb\Router;
 
-Route::get('/', ['control' => 'HomeController']);
+$router = new Router();
 
-Route::get('/page-not-found', ['control' => 'NotFoundController']);
+$router->get('/', 'HomeController@index');
 
-Route::get('/contato', ['control' => 'ContactController']);
-Route::get('/news', ['control' => 'NewsController']);
-Route::post('/news', ['control' => 'NewsController@redirect_to_single']);
-Route::get('/news/{category}', ['control' => 'NewsController@search']);
+$router->get('/page-not-found', 'NotFoundController@index');
+
+$router->get('/contato', 'ContactController');
+$router->get('/news', 'NewsController');
+$router->post('/news', 'NewsController@redirect_to_single@index');
+$router->get('/news/{category}', 'NewsController@search');
 
 // Panel
-Route::get('/panel', ['control' => 'Panel/PanelHomeController']);
+$router->get('/panel', 'Panel\\PanelHomeController');
+$router->get('/panel/permission-denied', 'Panel\\PanelHomeController');
 
-Route::get('/panel/login', ['control' => 'Panel/SessionController@create']);
-Route::post('/panel/login', ['control' => 'Panel/SessionController@store']);
-Route::get('/panel/logout', ['control' => 'Panel/SessionController@destroy']);
+$router->get('/panel/login', 'Panel\\SessionController@create');
+$router->post('/panel/login', 'Panel\\SessionController@store');
+$router->get('/panel/logout', 'Panel\\SessionController@destroy');
 
-Route::get('/panel/depoiments', ['control' => 'Panel/DepoimentosController@index']);
-Route::post('/panel/depoiments/create', ['control' => 'Panel/DepoimentosController@store']);
-Route::get('/panel/depoiments/create', ['control' => 'Panel/DepoimentosController@create']);
-Route::post('/panel/depoiments/edit', ['control' => 'Panel/DepoimentosController@update']);
-Route::get('/panel/depoiments/edit', ['control' => 'Panel/DepoimentosController@edit']);
-Route::delete('/panel/depoiments', ['control' => 'Panel/DepoimentosController@destroy']);
+$router->get('/panel/site/edit', 'Panel\\SiteController@edit');
+$router->post('/panel/site/edit', 'Panel\\SiteController@update');
 
-Route::get('/panel/service', ['control' => 'Panel/ServiceController@index']);
-Route::post('/panel/service/create', ['control' => 'Panel/ServiceController@store']);
-Route::get('/panel/service/create', ['control' => 'Panel/ServiceController@create']);
-Route::post('/panel/service/edit', ['control' => 'Panel/ServiceController@update']);
-Route::get('/panel/service/edit', ['control' => 'Panel/ServiceController@edit']);
-Route::delete('/panel/service', ['control' => 'Panel/ServiceController@destroy']);
+$router->get('/panel/depoiments', 'Panel\\DepoimentosController@index');
+$router->post('/panel/depoiments/create', 'Panel\\DepoimentosController@store');
+$router->get('/panel/depoiments/create', 'Panel\\DepoimentosController@create');
+$router->post('/panel/depoiments/edit', 'Panel\\DepoimentosController@update');
+$router->get('/panel/depoiments/edit', 'Panel\\DepoimentosController@edit');
+$router->delete('/panel/depoiments', 'Panel\\DepoimentosController@destroy');
+$router->post('/panel/depoiments/order', 'Panel\\DepoimentosController@order');
 
-Route::get('/panel/slide', ['control' => 'Panel/SlideController@index']);
-Route::post('/panel/slide/create', ['control' => 'Panel/SlideController@store']);
-Route::get('/panel/slide/create', ['control' => 'Panel/SlideController@create']);
-Route::post('/panel/slide/edit', ['control' => 'Panel/SlideController@update']);
-Route::get('/panel/slide/edit', ['control' => 'Panel/SlideController@edit']);
-Route::delete('/panel/slide', ['control' => 'Panel/SlideController@destroy']);
+$router->get('/panel/service', 'Panel\\ServiceController@index');
+$router->post('/panel/service/create', 'Panel\\ServiceController@store');
+$router->get('/panel/service/create', 'Panel\\ServiceController@create');
+$router->post('/panel/service/edit', 'Panel\\ServiceController@update');
+$router->get('/panel/service/edit', 'Panel\\ServiceController@edit');
+$router->delete('/panel/service', 'Panel\\ServiceController@destroy');
+$router->post('/panel/service/order', 'Panel\\ServiceController@order');
 
-Route::get('/panel/notice', ['control' => 'Panel/NoticeController@index']);
-Route::post('/panel/notice/create', ['control' => 'Panel/NoticeController@store']);
-Route::get('/panel/notice/create', ['control' => 'Panel/NoticeController@create']);
-Route::post('/panel/notice/edit', ['control' => 'Panel/NoticeController@update']);
-Route::get('/panel/notice/edit', ['control' => 'Panel/NoticeController@edit']);
-Route::delete('/panel/notice', ['control' => 'Panel/NoticeController@destroy']);
+$router->get('/panel/slide', 'Panel\\SlideController@index');
+$router->post('/panel/slide/create', 'Panel\\SlideController@store');
+$router->get('/panel/slide/create', 'Panel\\SlideController@create');
+$router->post('/panel/slide/edit', 'Panel\\SlideController@update');
+$router->get('/panel/slide/edit', 'Panel\\SlideController@edit');
+$router->delete('/panel/slide', 'Panel\\SlideController@destroy');
+$router->post('/panel/slide/order', 'Panel\\SlideController@order');
 
-Route::get('/panel/category', ['control' => 'Panel/CategoryController@index']);
-Route::post('/panel/category/create', ['control' => 'Panel/CategoryController@store']);
-Route::get('/panel/category/create', ['control' => 'Panel/CategoryController@create']);
-Route::post('/panel/category/edit', ['control' => 'Panel/CategoryController@update']);
-Route::get('/panel/category/edit', ['control' => 'Panel/CategoryController@edit']);
-Route::delete('/panel/category', ['control' => 'Panel/CategoryController@destroy']);
+$router->get('/panel/notice', 'Panel\\NoticeController@index');
+$router->post('/panel/notice/create', 'Panel\\NoticeController@store');
+$router->get('/panel/notice/create', 'Panel\\NoticeController@create');
+$router->post('/panel/notice/edit', 'Panel\\NoticeController@update');
+$router->get('/panel/notice/edit', 'Panel\\NoticeController@edit');
+$router->delete('/panel/notice', 'Panel\\NoticeController@destroy');
 
-Route::get('/panel/user/create', ['control' => 'Panel/UserController@create']);
-Route::post('/panel/user/create', ['control' => 'Panel/UserController@store']);
-Route::post('/panel/user/edit', ['control' => 'Panel/UserController@update']);
-Route::get('/panel/user/edit', ['control' => 'Panel/UserController@edit']);
+$router->get('/panel/category', 'Panel\\CategoryController@index');
+$router->post('/panel/category/create', 'Panel\\CategoryController@store');
+$router->get('/panel/category/create', 'Panel\\CategoryController@create');
+$router->post('/panel/category/edit', 'Panel\\CategoryController@update');
+$router->get('/panel/category/edit', 'Panel\\CategoryController@edit');
+$router->delete('/panel/category', 'Panel\\CategoryController@destroy');
+$router->post('/panel/category/order', 'Panel\\CategoryController@order');
+
+$router->get('/panel/user/create', 'Panel\\UserController@create');
+$router->post('/panel/user/create', 'Panel\\UserController@store');
+$router->post('/panel/user/edit', 'Panel\\UserController@update');
+$router->get('/panel/user/edit', 'Panel\\UserController@edit');
+
+echo $router->run($router->method(), $uri);
 
 // EOF

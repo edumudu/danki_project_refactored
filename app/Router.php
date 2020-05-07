@@ -5,63 +5,80 @@ namespace DevWeb;
 /**
  * Simple route class
  */
-class Route
+class Router
 {
-    private static $routes = [];
+    private $routes = [];
 
-    private static function add($route, $options)
+    public function method() : string
     {
-      $control = explode('@', $options['control']);
-
-      // Testar iniciando a varivael no propio if
-      if (array_reduce(self::$routes, fn($result, $r) => $r['uri'] === $route && $options['request'] === $r['request'], false)){
-          return;
-      };
-
-      self::$routes[] = [
-        'uri'     => $route,
-        'control' => $control[0],
-        'method'  => $control[1] ?? 'index',
-        'request' => $options['request']
-      ];
+      return isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'cli';
     }
 
-    public static function get($route, $options)
+    private function on(string $method, string $path, string $callback) : Router
     {
-      self::add($route, array_merge($options, ['request' => 'GET']));
+      $method = strtoupper($method);
+
+      if (!isset($this->routes[$method])) {
+        $this->routes[$method] = [];
+      }
+
+      $uri = substr($path, 0, 1) !== '/' ? '/' . $path : $path;
+      $pattern = str_replace('/', '\/', $uri);
+      $route = '/^' . $pattern . '$/';
+
+      $this->routes[$method][$route] = $callback;
+
+      return $this;
     }
 
-    public static function post($route, $options)
+    public function run(string $method, string $uri)
     {
-      self::add($route, array_merge($options, ['request' => 'POST']));
+      $method = strtoupper($method);
+      if (!isset($this->routes[$method])) {
+        return null;
+      }
+
+      foreach($this->routes[$method] as $route => $callback) {
+        if (preg_match($route, $uri, $parameters)) {
+          array_shift($parameters);
+
+          return $this->call($callback, $parameters);
+        }
+      }
+
+      return null;
     }
 
-    public static function delete($route, $options)
+    public function get(string $uri, string $action) : Router
     {
-      self::add($route, array_merge($options, ['request' => 'DELETE']));
+      return $this->on('GET', $uri, $action);
     }
 
-    public function execute($url)
+    public function post(string $uri, string $action) : Router
     {
-      $page = array_filter(self::$routes, function ($value) use ($url) {
-        return $value['uri'] === explode('?', $url)[0] && $value['request'] === $_SERVER['REQUEST_METHOD'];
-      }) ?? NULL;
-
-      $page = array_shift($page);
-
-      if (!$page)
-        self::redirect('/page-not-found');
-
-      $controller = '\DevWeb\Control\\' . preg_replace('/\//', '\\', $page['control']);
-      $controller = new $controller;
-      $controller->{$page['method']}($_POST ?? null);
+      return $this->on('POST', $uri, $action);
     }
 
-    public function redirect($url)
+    public function put(string $uri, string $action) : Router
     {
-        die('<script>
-                location.href = "' . PATH . $url . '"
-            </script>');
+      return $this->on('PUT', $uri, $action);
+    }
+
+    public function delete(string $uri, string $action) : Router
+    {
+      return $this->on('DELETE', $uri, $action);
+    }
+
+    private function call (string $callback, array $paramns)
+    {
+      [$controller, $method] = explode('@', $callback);
+
+      $controller = '\DevWeb\Control\\' . $controller;
+      $method = $method ?? 'index';
+
+      call_user_func_array([new $controller, $method], $paramns);
+
+      return null;
     }
 }
 

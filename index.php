@@ -1,13 +1,16 @@
 <?php 
 
-    use DevWeb\Route;
+$uri = urldecode(
+  parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+);
 
-    include "vendor/autoload.php";
-    include 'config.php'; 
-    include 'helpers.php';
-    include 'routes.php';
+if($uri !== '/' && file_exists(__DIR__ . '/public' . $uri)){
+  return false;
+}
 
-    $uri = strlen($_SERVER['REQUEST_URI']) > 1 ? preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+include "vendor/autoload.php";
+include 'config.php'; 
+include 'helpers.php';
+include 'routes.php';
 
-    Route::execute($uri);
-?>  
+// EOF
