@@ -2,6 +2,7 @@
 
 namespace DevWeb\Control\Panel;
 
+use DevWeb\Model\Request;
 use DevWeb\Model\Site;
 
 class SiteController extends ControllerPanel
@@ -31,16 +32,18 @@ class SiteController extends ControllerPanel
 
   public function update ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['name_author'] = $_POST['name_author'];
-    $data['descricao'] = $_POST['descricao'];
-    $data['icone_1'] = $_POST['icone_1'];
-    $data['icone_2'] = $_POST['icone_2'];
-    $data['icone_3'] = $_POST['icone_3'];
-    $data['descricao_1'] = $_POST['descricao_1'];
-    $data['descricao_2'] = $_POST['descricao_2'];
-    $data['descricao_3'] = $_POST['descricao_3'];
+    $data = $request->only([
+      'name_author',
+      'descricao',
+      'icone_1',
+      'icone_2',
+      'icone_3',
+      'descricao_1',
+      'descricao_2',
+      'descricao_3'
+    ]);
 
     $this->site->update($data, ['id' => 1]);
 

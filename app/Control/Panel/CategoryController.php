@@ -3,6 +3,7 @@
 namespace DevWeb\Control\Panel;
 
 use DevWeb\Model\Category;
+use DevWeb\Model\Request;
 
 class CategoryController extends ControllerPanel
 {
@@ -20,9 +21,10 @@ class CategoryController extends ControllerPanel
    */
   public function index () 
   {
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $currentPage = $request->query()->get('page', 1);
     $total_pages = ceil(count($this->category->all(['id'])) / $this->perPage);
     $categorys = $this->category->all(
       ['*'],
@@ -61,9 +63,9 @@ class CategoryController extends ControllerPanel
 
   public function store ()
   {
-    if (!isset($_POST)) return;
-
-    $data['name'] = $_POST['name'];
+    $request = new Request;
+    
+    $data = $request->only(['name']);
     $this->category->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
@@ -74,10 +76,10 @@ class CategoryController extends ControllerPanel
     if ( $this->cargo <= $this->edit_level )
       return;
 
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    if(isset($_GET['id'])){
-      $id = (int)$_GET['id'];
+    if($id = $request->query()->get('id')){
       $service = $this->category->selectSingle(['id' => $id]);
     }else {
       die(Painel::alert('error','Você precisa pasar o parametro id.'));
@@ -92,27 +94,28 @@ class CategoryController extends ControllerPanel
 
   public function update ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['name'] = $_POST['name'];
+    $data = $request->only(['name']);
 
-    $this->category->update($data, ['id' => (int)$_GET['id']]);
+    $this->category->update($data, ['id' => (int)$request->query()->get('id')]);
 
     return self::redirect('/panel' . $this->base_uri);
   }
 
   public function destroy ()
   {
-    if (isset($_GET['excluir'])) {
-      $id = $_GET['excluir'];
+    $request = new Request;
 
+    if ($id = $request->query()->get('excluir')) {
       $this->category->delete(['id' => $id]);
     }
   }
 
   public function order () {
-    $order = $_POST['order'];
-    $id = $_POST['id'];
+    $request = new Request;
+    $order = $request->get('order');
+    $id =  $request->get('id');
 
     if(!($order && $id))
       return;

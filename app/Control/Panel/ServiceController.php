@@ -2,6 +2,7 @@
 
 namespace DevWeb\Control\Panel;
 
+use DevWeb\Model\Request;
 use DevWeb\Model\Service;
 
 class ServiceController extends ControllerPanel
@@ -17,9 +18,10 @@ class ServiceController extends ControllerPanel
 
   public function index () 
   {
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $currentPage = $request->query()->get('pagina', 1);
     $total_pages = ceil(count($this->service->all(['id'])) / $this->perPage);
     $services = $this->service->all(
       ['*'],
@@ -58,10 +60,9 @@ class ServiceController extends ControllerPanel
 
   public function store ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['servico'] = $_POST['servico'];
-
+    $data = $request->only(['servico']);
     $this->service->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
@@ -72,10 +73,10 @@ class ServiceController extends ControllerPanel
     if ( $this->cargo <= $this->edit_level )
       return;
 
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    if(isset($_GET['id'])){
-      $id = (int)$_GET['id'];
+    if($id = $request->query()->get('id')){
       $service = $this->service->selectSingle(['id' => $id]);
     }else {
       die(Painel::alert('error','Você precisa pasar o parametro id.'));
@@ -90,27 +91,27 @@ class ServiceController extends ControllerPanel
 
   public function update ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['servico'] = $_POST['servico'];
-
-    $this->service->update($data, ['id' => (int)$_GET['id']]);
+    $data = $request->get('servico');
+    $this->service->update($data, ['id' => (int)$request->query()->get('id')]);
 
     return self::redirect('/panel' . $this->base_uri);
   }
 
   public function destroy ()
   {
-    if (isset($_GET['excluir'])) {
-      $id = (int)$_GET['excluir'];
-
+    $request = new Request;
+    
+    if ($id = $request->query()->get('excluir')) {
       $this->service->delete(['id' => $id]);
     }
   }
 
   public function order () {
-    $order = $_POST['order'];
-    $id = $_POST['id'];
+    $request = new Request;
+    $order = $request->get('order');
+    $id =  $request->get('id');
 
     if(!($order && $id))
       return;

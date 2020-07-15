@@ -4,6 +4,7 @@ namespace DevWeb\Control\Panel;
 
 use DevWeb\Model\Slide;
 use DevWeb\Model\File;
+use DevWeb\Model\Request;
 
 class SlideController extends ControllerPanel
 {
@@ -19,9 +20,10 @@ class SlideController extends ControllerPanel
 
   public function index () 
   {
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $currentPage = $request->query()->get('pagina', 1);
     $total_pages = ceil(count($this->slide->all(['id'])) / $this->perPage);
     $slides = $this->slide->all(
       ['*'],
@@ -62,16 +64,16 @@ class SlideController extends ControllerPanel
 
   public function store ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $img = $_FILES['slide'];
+    $img = $request->files('slide');
 
     if (!File::validImg($img)) {
       return;
     }
     
     $img = File::uploadFile($img);
-    $data['name'] = $_POST['name'];
+    $data = $request->only(['name']);
     $data['slide'] = $img ?: null;
 
     $this->slide->create($data);
@@ -84,10 +86,10 @@ class SlideController extends ControllerPanel
     if ( $this->cargo <= $this->edit_level )
       return;
 
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    if(isset($_GET['id'])){
-      $id = (int)$_GET['id'];
+    if($id = $request->query()->get('id')){
       $slide = $this->slide->selectSingle(['id' => $id]);
     }else {
       die(Painel::alert('error','Você precisa pasar o parametro id.'));
@@ -104,28 +106,27 @@ class SlideController extends ControllerPanel
 
   public function update ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $img = $_FILES['slide'];
+    $img = $request->files('slide');
 
     if (!File::validImg($img)) {
       return;
     }
     
     $img = File::uploadFile($img);
-    $data['name'] = $_POST['name'];
+    $data = $request->only(['name']);
     $data['slide'] = $img;
 
-    $this->slide->update($data, ['id' => (int)$_GET['id']]);
+    $this->slide->update($data, ['id' => (int)$request->query()->get('id')]);
 
     return self::redirect('/panel' . $this->base_uri);
   }
 
   public function destroy ()
   {
-    if (isset($_GET['excluir'])) {
-      $id = (int)$_GET['excluir'];
-
+    $request =  new Request;
+    if ($id = $request->query()->get('excluir')) {
       $nameImg = $this->slide->selectSingle(['id' => $id], [$this->image_field]);
       File::deleteFile($nameImg[0]);
 
@@ -134,8 +135,9 @@ class SlideController extends ControllerPanel
   }
 
   public function order () {
-    $order = $_POST['order'];
-    $id = $_POST['id'];
+    $request = new Request;
+    $order = $request->get('order');
+    $id =  $request->get('id');
 
     if(!($order && $id))
       return;

@@ -3,6 +3,7 @@
 namespace DevWeb\Control\Panel;
 
 use DevWeb\Model\Depoiment;
+use DevWeb\Model\Request;
 
 class DepoimentosController extends ControllerPanel
 {
@@ -20,9 +21,10 @@ class DepoimentosController extends ControllerPanel
    */
   public function index () 
   {
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $currentPage = $request->query()->get('pagina', 1);
     $total_pages = ceil(count($this->depoiment->all(['id'])) / $this->perPage);
     $depoiments = $this->depoiment->all(
       ['*'],
@@ -61,11 +63,9 @@ class DepoimentosController extends ControllerPanel
 
   public function store ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['name'] = $_POST['name'];
-    $data['depoimento'] = $_POST['depoimento'];
-
+    $data =  $request->only(['name', 'depoimento']);
     $this->depoiment->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
@@ -76,10 +76,10 @@ class DepoimentosController extends ControllerPanel
     if ( $this->cargo <= $this->edit_level )
       return;
 
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    if(isset($_GET['id'])){
-      $id = (int)$_GET['id'];
+    if($id = $request->query()->get('id')){
       $depoiment = $this->depoiment->selectSingle(['id' => $id]);
     }else {
       die(Painel::alert('error','Você precisa pasar o parametro id.'));
@@ -94,28 +94,27 @@ class DepoimentosController extends ControllerPanel
 
   public function update ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['name'] = $_POST['name'];
-    $data['depoimento'] = $_POST['depoimento'];
-
-    $this->depoiment->update($data, ['id' => (int)$_GET['id']]);
+    $data =  $request->only(['name', 'depoimento']);
+    $this->depoiment->update($data, ['id' => (int)$request->query()->get('id')]);
 
     return self::redirect('/panel' . $this->base_uri);
   }
 
   public function destroy ()
   {
-    if (isset($_GET['excluir'])) {
-      $id = (int)$_GET['excluir'];
+    $request = new Request;
 
+    if ($id = $request->query()->get('excluir')) {
       $this->depoiment->delete(['id' => $id]);
     }
   }
 
   public function order () {
-    $order = $_POST['order'];
-    $id = $_POST['id'];
+    $request = new Request;
+    $order = $request->get('order');
+    $id =  $request->get('id');
 
     if(!($order && $id))
       return;
