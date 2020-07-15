@@ -22,9 +22,9 @@ class HomeController extends Controller
       $view->add_script('slider.js');
       $view->render('home', [
         'title'       => 'Home',
-        'slides'      => $slide->selectAll(['name', 'slide'], null, 'order_id ASC', 0, 3),
-        'depoimentos' => $depoiment->selectAll(['*'], null, 'order_id ASC', 0, 3),
-        'services'    => $service->selectAll(['servico'], null, 'order_id ASC', 0, 5),
+        'slides'      => $slide->all(['name', 'slide'], null, 'order_id ASC', 0, 3),
+        'depoimentos' => $depoiment->all(['*'], null, 'order_id ASC', 0, 3),
+        'services'    => $service->all(['servico'], null, 'order_id ASC', 0, 5),
         'name_author' => $site_info['name_author'],
         'description' => $site_info['descricao'],
         'icone_1'     => $site_info['icone_1'],

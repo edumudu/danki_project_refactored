@@ -20,8 +20,8 @@ class ServiceController extends ControllerPanel
     $view = $this->view('Panel\\ViewPanel');
 
     $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-    $total_pages = ceil(count($this->service->selectAll(['id'])) / $this->perPage);
-    $services = $this->service->selectAll(
+    $total_pages = ceil(count($this->service->all(['id'])) / $this->perPage);
+    $services = $this->service->all(
       ['*'],
       null,
       'order_id ASC',
@@ -32,11 +32,11 @@ class ServiceController extends ControllerPanel
     $view->render('templates/list-template', [
       "can_edit"    => $this->cargo >= $this->edit_level,
       "base_uri"    => $this->base_uri,
-      "items" => [
+      "data" => [
         "total_pages" => $total_pages,
         "results"     => $services,
         "currentPage" => $currentPage,
-        "columns"     => $this->service->getColumns()
+        "columns"     => $this->service->getFields()
       ],
       "menus"         => $this->menus_actives
     ]);
@@ -62,7 +62,7 @@ class ServiceController extends ControllerPanel
 
     $data['servico'] = $_POST['servico'];
 
-    $this->service->insert($data);
+    $this->service->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
   }
@@ -106,6 +106,16 @@ class ServiceController extends ControllerPanel
 
       $this->service->delete(['id' => $id]);
     }
+  }
+
+  public function order () {
+    $order = $_POST['order'];
+    $id = $_POST['id'];
+
+    if(!($order && $id))
+      return;
+
+    $this->service->order($id, $order);
   }
 }
 

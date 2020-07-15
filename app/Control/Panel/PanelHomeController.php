@@ -16,9 +16,9 @@ class PanelHomeController extends ControllerPanel
     $view->render('home', [
       'title'               => 'Panel',
       'usuariosOnline'      => $user->listUsersOnline(),
-      'usuariosCadastrados' => $user->selectAll(),
-      'totalVisitas'        => count($visita->selectAll()),
-      'visitasHoje'         => count($visita->selectAll(['id'], ['dia' => date('Y-m-d')])),
+      'usuariosCadastrados' => $user->all(),
+      'totalVisitas'        => count($visita->all()),
+      'visitasHoje'         => count($visita->all(['id'], ['dia' => date('Y-m-d')])),
       'menus'               => $this->menus_actives
     ]);
   }

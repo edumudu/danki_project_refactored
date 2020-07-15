@@ -23,8 +23,8 @@ class DepoimentosController extends ControllerPanel
     $view = $this->view('Panel\\ViewPanel');
 
     $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-    $total_pages = ceil(count($this->depoiment->selectAll(['id'])) / $this->perPage);
-    $depoiments = $this->depoiment->selectAll(
+    $total_pages = ceil(count($this->depoiment->all(['id'])) / $this->perPage);
+    $depoiments = $this->depoiment->all(
       ['*'],
       null,
       'order_id ASC',
@@ -35,11 +35,11 @@ class DepoimentosController extends ControllerPanel
     $view->render('templates/list-template', [
       "can_edit"    => $this->cargo >= $this->edit_level,
       "base_uri"    => $this->base_uri,
-      "items" => [
+      "data" => [
         "total_pages" => $total_pages,
         "results"     => $depoiments,
         "currentPage" => $currentPage,
-        "columns"     => $this->depoiment->getColumns()
+        "columns"     => $this->depoiment->getFields()
       ],
       "menus"         => $this->menus_actives
     ]);
@@ -66,7 +66,7 @@ class DepoimentosController extends ControllerPanel
     $data['name'] = $_POST['name'];
     $data['depoimento'] = $_POST['depoimento'];
 
-    $this->depoiment->insert($data);
+    $this->depoiment->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
   }
@@ -111,6 +111,16 @@ class DepoimentosController extends ControllerPanel
 
       $this->depoiment->delete(['id' => $id]);
     }
+  }
+
+  public function order () {
+    $order = $_POST['order'];
+    $id = $_POST['id'];
+
+    if(!($order && $id))
+      return;
+
+    $this->depoiment->order($id, $order);
   }
 }
 

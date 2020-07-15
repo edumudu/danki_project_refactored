@@ -23,8 +23,8 @@ class CategoryController extends ControllerPanel
     $view = $this->view('Panel\\ViewPanel');
 
     $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-    $total_pages = ceil(count($this->category->selectAll(['id'])) / $this->perPage);
-    $categorys = $this->category->selectAll(
+    $total_pages = ceil(count($this->category->all(['id'])) / $this->perPage);
+    $categorys = $this->category->all(
       ['*'],
       null,
       'order_id ASC',
@@ -35,11 +35,11 @@ class CategoryController extends ControllerPanel
     $view->render('templates/list-template', [
       "can_edit"    => $this->cargo >= $this->edit_level,
       "base_uri"    => $this->base_uri,
-      "items" => [
+      "data" => [
         "total_pages" => $total_pages,
         "results"     => $categorys,
         "currentPage" => $currentPage,
-        "columns"     => $this->category->getColumns()
+        "columns"     => $this->category->getFields()
       ],
       "menus"         => $this->menus_actives
     ]);
@@ -64,7 +64,7 @@ class CategoryController extends ControllerPanel
     if (!isset($_POST)) return;
 
     $data['name'] = $_POST['name'];
-    $this->category->insert($data);
+    $this->category->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
   }
@@ -108,6 +108,16 @@ class CategoryController extends ControllerPanel
 
       $this->category->delete(['id' => $id]);
     }
+  }
+
+  public function order () {
+    $order = $_POST['order'];
+    $id = $_POST['id'];
+
+    if(!($order && $id))
+      return;
+
+    $this->category->order($id, $order);
   }
 }
 

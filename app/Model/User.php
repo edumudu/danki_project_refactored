@@ -13,7 +13,7 @@ class User extends Model
     $online = new Online;
     $online->limparUsersOnline();
 
-    return $online->selectAll();
+    return $online->all();
   }
 }
 

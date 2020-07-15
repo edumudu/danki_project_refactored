@@ -19,7 +19,7 @@ class View
 
     public function render($page, $data) : void
     {
-        $data = (object)array_merge($data, $this->default_data);
+        extract(array_merge($data, $this->default_data));
 
         $this->page = $page;
 

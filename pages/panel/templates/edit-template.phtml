@@ -13,30 +13,30 @@
             // }
         ?>
 
-        <?php foreach ($data->columns as $value) { ?>
-          <div class="form-group <?= $value['COLUMN_NAME'] === $data->img_field ? 'file' : '' ?>">
+        <?php foreach ($columns as $value) { ?>
+          <div class="form-group <?= $value['name'] === $img_field ? 'file' : '' ?>">
               <label>
-                <?= ucfirst($value['COLUMN_NAME']) ?>:
+                <?= ucfirst($value['name']) ?>:
 
-                <?php if ($value['COLUMN_TYPE'] === 'longtext' || $value['COLUMN_TYPE'] === 'text') { ?>
+                <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
                   <textarea
                     id="name"
                     type="text"
-                    name="<?= $value['COLUMN_NAME'] ?>"
+                    name="<?= $value['name'] ?>"
                     required
                   >
-                    <?= $data->item[$value['COLUMN_NAME']] ?>
+                    <?= $item[$value['name']] ?>
                   </textarea>
-                <?php } else if (isset($data->img_field) && $value['COLUMN_NAME'] === $data->img_field) { ?>
+                <?php } else if (isset($img_field) && $value['name'] === $img_field) { ?>
                   <label class="fake-file">Upload
-                    <input type="file" accept="image/*" name="<?= $value['COLUMN_NAME'] ?>" />
+                    <input type="file" accept="image/*" name="<?= $value['name'] ?>" />
                   </label>
                 <?php } else { ?>
                   <input
                     id="name"
                     type="text"
-                    name="<?= $value['COLUMN_NAME'] ?>"
-                    value="<?= $data->item[$value['COLUMN_NAME']] ?>"
+                    name="<?= $value['name'] ?>"
+                    value="<?= $item[$value['name']] ?>"
                     required
                   />
                 <?php } ?>

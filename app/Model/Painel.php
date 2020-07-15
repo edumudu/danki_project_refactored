@@ -1,6 +1,6 @@
 <?php
 
-namespace DevWEb\Model;
+namespace DevWeb\Model;
 
 use PDO;
 use DevWeb\Model\mySQL;
@@ -34,14 +34,6 @@ class Painel{
         $str = preg_replace('/(,)/', '-', $str);
         $str = preg_replace('/(-[-]{1,})/', '-', $str);
         return $str;
-    }
-
-    /**
-     * @return bool Retorna true se a sessao login existe e flse se não
-     */
-
-    public static function logado(){
-        return isset($_SESSION['login']);
     }
 
     /**
@@ -174,25 +166,6 @@ class Painel{
     public static function cleanUrlJs($url){
         echo "<script>window.history.pushState('','','$url')</script>";
     }
-
-    public static function orderItem($tb, $orderType, $idItem){
-        $item = self::selectSingle($tb, ['id' => $idItem]);
-        switch($orderType){
-            case 'up':
-                $itemArround = mySQL::connect()->query(self::buildQuerySelect($tb)." WHERE `order_id` < $item[order_id] ORDER BY order_id DESC LIMIT 1");
-                break;
-            case 'down':
-                $itemArround = mySQL::connect()->query(self::buildQuerySelect($tb)." WHERE `order_id` > $item[order_id] ORDER BY order_id ASC LIMIT 1");
-                break;
-        }
-
-        if($itemArround->rowCount() == 0) return false;
-        $itemArround = $itemArround->fetch();
-        if(!self::update($tb, ["order_id" => $itemArround['order_id']] ,['id' => $idItem])) return false;
-        if(!self::update($tb, ["order_id" => $item['order_id']] ,['id' => $itemArround['id']])) return false;
-        return true;
-    }
-
 }
 
 // EOF

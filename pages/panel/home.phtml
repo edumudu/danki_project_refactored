@@ -5,21 +5,21 @@
       <div class="box-metricas-single">
           <div class="box-metricas-wrapper">
               <h2>Usuarios online</h2>
-              <p><?= count($data->usuariosOnline) ?></p>
+              <p><?= count($usuariosOnline) ?></p>
           </div>
       </div><!--box-metricas-single-->
 
       <div class="box-metricas-single">
           <div class="box-metricas-wrapper">
               <h2>Total de visitas</h2>
-              <p><?= $data->totalVisitas ?></p>
+              <p><?= $totalVisitas ?></p>
           </div>
       </div><!--box-metricas-single-->
 
       <div class="box-metricas-single">
           <div class="box-metricas-wrapper">
               <h2>Visitas Hoje</h2>
-              <p><?= $data->visitasHoje ?></p>
+              <p><?= $visitasHoje ?></p>
           </div>
       </div><!--box-metricas-single-->
   </div><!--box-mretricas-->
@@ -38,7 +38,7 @@
       </div><!--row-->
 
       <?php 
-          foreach($data->usuariosOnline as $value){
+          foreach($usuariosOnline as $value){
       ?>
 
       <div class="row">
@@ -70,7 +70,7 @@
       </div><!--row-->
 
       <?php 
-          foreach($data->usuariosCadastrados as $value){
+          foreach($usuariosCadastrados as $value){
       ?>
 
       <div class="row">

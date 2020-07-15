@@ -48,7 +48,7 @@ class UserController extends ControllerPanel
     $data['cargo'] = $_POST['cargo'];
     $data[$this->image_field] = $img ?: null;
 
-    $this->user->insert($data);
+    $this->user->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
   }
@@ -63,7 +63,7 @@ class UserController extends ControllerPanel
     $view->render('templates/edit-template', [
       "menus"     => $this->menus_actives,
       "columns"   => $this->user->getFields(),
-      "item"      => $_SESSION,
+      "item"      => $_SESSION['auth']['user'],
       "img_field" => $this->image_field
     ]);
   }
@@ -82,8 +82,9 @@ class UserController extends ControllerPanel
     $data['password'] = $_POST['password'];
     $data['cargo'] = $_POST['cargo'];
     $data['img'] = $img;
-    if($this->user->update($data, ['id' => $_SESSION['id']])) {
-      $_SESSION['img'] = $img;
+    
+    if($this->user->update($data, ['id' => auth()->user->id])) {
+      $_SESSION['auth']['user']['img'] = $img;
     }
 
     self::redirect(INCLUDE_PATH_PANEL);

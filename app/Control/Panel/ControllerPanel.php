@@ -98,7 +98,7 @@ class ControllerPanel extends Controller
       [
         'access_level' => 0,
         'text'         => 'Editar Site',
-        'path'         => '/site/edit
+        'path'         => '/site/edit'
       ],
     ]
   ];
@@ -107,10 +107,10 @@ class ControllerPanel extends Controller
 
   public function __construct()
   {
-    if ($this->is_needed_login && !$_SESSION['login'])
-      Route::redirect('/panel/login');
+    if ($this->is_needed_login && !auth()->isLogged)
+      self::redirect('/panel/login');
     
-    $this->cargo = $_SESSION['cargo'];
+    $this->cargo = auth()->user->cargo;
 
     $this->menus_actives = array_filter($this->raw_menus, function ($menu) { return $menu['access_level'] <= $this->cargo; });
   }

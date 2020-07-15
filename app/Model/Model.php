@@ -2,50 +2,36 @@
 
 namespace DevWeb\Model;
 
-use PDO;
-use DevWeb\Model\mySQL;
+use DevWeb\Model\Database\DB;
+use Exception;
 
-class Model
+class Model extends DB
 {
   protected $is_orded_by_id = false;
+  protected $hidden = [];
 
-  /**
-   * Retorna o PDO object do prepare
-   * 
-   * @param string $query Query a ser passada para o banco de dados
-   * 
-   * @return object Objeto PDO após o prepare
-   */
-  protected function prepare($query) {
-    return mySQL::connect()->prepare($query);
+  public function __construct()
+  {
+    $this->table($this->tb);
   }
 
   /**
-   * Constroi uma query select com base nas colunas e tabela recebida
+   * Retorna todos os registros que batem com as condições
    * 
-   * @param array $columns Nome das colunas que se deseja resgatar
-   * 
-   * @return string Query select Pronta
-   */
+   * @param array $columns Um Array com as colunas que desejam ser resgatadas
+   * @param array $where Array com os valores do where
+    */
 
-  private function buildQuerySelect($columns = ['*']){
-    $cols = $columns[0] === '*' ? $columns : array_map(fn($value) => " `$value` ", $columns);
+  public function all($columns = null, $where = null) : array
+  {
+    $columns = $columns ?? array_column($this->getFields($this->tb), 'name');
+    $params = array_filter($columns, fn($value) => !in_array($value, $this->hidden)) ?? [];
 
-    return 'SELECT ' . implode(', ', $cols) . " FROM `$this->tb`";
-  }
+    $this->select($params);
 
-  /**
-   * Cria a parte do WHERE de uma consulta baseado nas colunas passadas
-   * 
-   * @param array $columns Nome das colunas
-   * @param string $operator [optional] informa qual operador deve ser usado para query
-   * 
-   * @return string Parte WHERE pronta preparada contra mysql injection
-   */
+    if ($where) $this->where($where);
 
-  private function buildQueryWhere($columns, $operator = '='){
-      $clauses = array_map(fn($key) => "$key $operator :$key", $columns);
-      return " WHERE " . implode(' AND ', $clauses);
+    return $this->get();
   }
 
   /**
@@ -57,17 +43,13 @@ class Model
    * @return array O resultado da pesquisa em forma de array ou false caso falhe
    */
 
-  public function selectSingle($where, $columns = ['*']){
-    $query = $this->buildQuerySelect($columns);
-    $query .= $this->buildQueryWhere(array_keys($where));
-
-    $sql = $this->prepare($query);
-
-    if($sql->execute($where)){
-        return $sql->fetch();
+  public function selectSingle($where, $columns = [])
+  {
+    try {
+      return $this->select($columns)->where($where)->get()[0];
+    } catch (Exception $e) {
+      return false;
     }
-
-    return false;
   }
 
   /**
@@ -82,32 +64,32 @@ class Model
    * @return array Todos os registros que batem com as condições ou false caso falhe
    */
 
-  public function selectAll($columns = ['*'], $where = null, $order = null, $start = null, $end = null){
-    $query = $this->buildQuerySelect($columns);
-    $query .= isset($where) ? $this->buildQueryWhere(array_keys($where)) : '';
-    $query .= isset($order) ? " ORDER BY $order " : " ORDER BY id ASC ";
+  // public function selectAll($columns = ['*'], $where = null, $order = null, $start = null, $end = null){
+  //   $query = $this->buildQuerySelect($columns);
+  //   $query .= isset($where) ? $this->buildQueryWhere(array_keys($where)) : '';
+  //   $query .= isset($order) ? " ORDER BY $order " : " ORDER BY id ASC ";
 
-    if(isset($start) && isset($end)){
-      $query .= " LIMIT :start , :end";
-      $limit = true;
-    }
+  //   if(isset($start) && isset($end)){
+  //     $query .= " LIMIT :start , :end";
+  //     $limit = true;
+  //   }
     
-    $sql = $this->prepare($query);
-    if(isset($limit)){
-      //Resolver bug do pdo ao usar ? ? na query limit
-      $sql->bindParam(':start', $start, PDO::PARAM_INT);
-      $sql->bindParam(':end', $end, PDO::PARAM_INT);
-    }
+  //   $sql = $this->prepare($query);
+  //   if(isset($limit)){
+  //     //Resolver bug do pdo ao usar ? ? na query limit
+  //     $sql->bindParam(':start', $start, PDO::PARAM_INT);
+  //     $sql->bindParam(':end', $end, PDO::PARAM_INT);
+  //   }
 
-    if(isset($where)){
-      foreach($where as $key => $value){
-        $sql->bindParam(":$key", $value);
-      }
-    }
+  //   if(isset($where)){
+  //     foreach($where as $key => $value){
+  //       $sql->bindParam(":$key", $value);
+  //     }
+  //   }
 
-    if(!$sql->execute()) return false;
-    return $sql->fetchAll();
-  }
+  //   if(!$sql->execute()) return false;
+  //   return $sql->fetchAll();
+  // }
 
   /**
    * Insere valores nos campos da tabela não importando a ordem em que são dados, nem quantidade
@@ -119,20 +101,15 @@ class Model
    * @return bool Um booleano representado o sucesso ou falha da inserção
    */
 
-  public function insert($data){
-    $query = 'INSERT INTO `' . $this->tb . '` ';
+  public function create($data){
 
     if($this->is_orded_by_id){
-      $data['order_id'] = (int)mySQL::connect()->query('SELECT max(order_id) as ord FROM `' . $this->tb . '`')->fetch()['ord'] + 1;
+      $data['order_id'] = (int)DB::connect()
+        ->query("SELECT max(order_id) as ord FROM `$this->tb`")
+        ->fetch()['ord'] + 1;
     }
 
-    $columns = array_keys($data);
-
-    $query .= '(`' . implode('`, `', $columns) . '`) VALUES( ';
-    $query .= ':' . implode(', :', $columns) . ')';
-    $sql = $this->prepare($query);
-
-    return $sql->execute($data);
+    return $this->insert($data);
   }
 
   /**
@@ -144,27 +121,22 @@ class Model
    * @return bool Retorna se o update foi bem sucedido ou não
    */
 
-  public function update($values, $where){
-    $query = array_map(fn($key) => "`$key` = :$key", array_keys($values));
-
-    $query = 'UPDATE `' . $this->tb . '` SET ' . implode(", ", $query) . self::buildQueryWhere(array_keys($where));                
-    $sql = $this->prepare($query);
-
-    return $sql->execute(array_merge($values, $where));
+  public function update ($values, $where)
+  {
+    return $this->upgrade($values)->where($where)->save();
   }
 
   /**
-   * Deleta um registro com base nas calusulas where passadas
+   * Deleta um registro com base nos parametros passados
    * 
    * @param array $where Chaves como nome da coluna e valor para o valor da mesma
    * 
    * @return bool Retorna se o delete foi bem sucedido ou não
    */
 
-  public function delete($where){
-    $sql = $this->prepare('DELETE FROM `' . $this->tb . '` ' . self::buildQueryWhere(array_keys($where)));
-    
-    return $sql->execute($where);
+  public function delete($where) : bool
+  {
+    return $this->destroy($where);
   }
 
   /**
@@ -178,18 +150,48 @@ class Model
     return $item ? $item : false;
   }
 
-  public function getColumns() {
-    return mySQL::getColumnsStats($this->tb);
-  }
-
   /**
    * Retorna os campos inseridos pelo usuario
    */
 
   public function getFields()
   {
-    $cols = $this->getColumns();
-    return array_filter($cols, fn($col) => in_array($col['COLUMN_NAME'], $this->used_fields));
+    $cols = DB::getColumns($this->tb);
+
+    return array_filter($cols, fn($col) => in_array($col['name'], $this->used_fields));
+  }
+
+  /**
+   * Altera o orde id do item referente ao id passado
+   * 
+   * @param int $id id do item que deve ter os order id alterado
+   * @param string @orderType Qual a operação deve ser feita
+   * 
+   * @return bool Se a operação foi bem sucedida ou não
+   */
+
+  public function order($id, $orderType){
+    $item = $this->selectSingle(['id' => (int)$id]);
+
+    switch($orderType){
+      case 'up':
+        $itemArround = $this->select([])->where(['order_id' => $item['order_id']], '<')->get()[0];
+        // $itemArround = mySQL::connect()->query($this->buildQuerySelect() . " WHERE `order_id` < $item[order_id] ORDER BY order_id DESC LIMIT 1");
+        break;
+      case 'down':
+        $itemArround = $this->select([])->where(['order_id' => $item['order_id']], '>')->get()[0];
+        // $itemArround = mySQL::connect()->query($this->buildQuerySelect() . " WHERE `order_id` > $item[order_id] ORDER BY order_id ASC LIMIT 1");
+        break;
+    }
+
+    if(count($itemArround) == 0) return false;
+
+    // $itemArround = $itemArround->fetch();
+
+    if(!$this->update(["order_id" => $itemArround['order_id']], ['id' => $id])) return false;
+    if(!$this->update(["order_id" => $item['order_id']], ['id' => $itemArround['id']])) return false;
+
+    return true;
   }
 }
 

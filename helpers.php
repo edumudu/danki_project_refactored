@@ -31,7 +31,11 @@ function getCargo() {
     'Administrador'
   ];
 
-  return $cargos[$_SESSION['cargo']];
+  return $cargos[auth()->user->cargo];
+}
+
+function auth() {
+  return json_decode(json_encode($_SESSION['auth']));
 }
 
 // EOF

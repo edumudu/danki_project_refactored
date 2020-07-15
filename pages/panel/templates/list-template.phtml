@@ -16,13 +16,13 @@
             <thead>
                 <tr>
                     <?php 
-                        foreach($data->items["columns"] as $value){
-                            if($value['COLUMN_NAME'] !== 'id' && $value['COLUMN_NAME'] !== 'order_id')
-                                echo "<th>".ucfirst($value['COLUMN_NAME'])."</th>";
+                        foreach($data["columns"] as $value){
+                            if($value['name'] !== 'id' && $value['name'] !== 'order_id')
+                                echo "<th>".ucfirst($value['name'])."</th>";
                         }
                     ?>
 
-                    <?php if ($data->can_edit) { ?>
+                    <?php if ($can_edit) { ?>
                     <th>Editar</th>
                     <th>Deletar</th>
                     <?php } ?>
@@ -30,26 +30,26 @@
                 </tr>
             </thead>
             <tbody>
-                    <?php foreach($data->items['results'] as $value){
+                    <?php foreach($data['results'] as $value){
                       echo "<tr>";
                       foreach($value as $key => $col){
                         if(is_string($key) && $key !== 'id' && $key !== 'order_id'){
-                          if(isset($data->img_field) && $key === $data->img_field){
+                          if(isset($img_field) && $key === $img_field){
                             echo "<td><img src='". asset('/images/uploads/' . $value['slide']) ."' /></td>";
                             continue;
                           }
                     ?>
                           <td><?php echo $col; ?></td>
                     <?php }} ?>
-                      <?php if ($data->can_edit) { ?>
-                        <td><a class="btn-edit" href="<?= INCLUDE_PATH_PANEL . $data->base_uri . '/edit?id='.$value['id']; ?>"><i class="fas fa-edit"></i> Editar</a></td>
+                      <?php if ($can_edit) { ?>
+                        <td><a class="btn-edit" href="<?= INCLUDE_PATH_PANEL . $base_uri . '/edit?id='.$value['id']; ?>"><i class="fas fa-edit"></i> Editar</a></td>
                         <td><a class="btn-delete" href="#" id-ref="<?= $value['id'] ?>"><i class="fas fa-trash-alt"></i> Excluir</a></td>
                       <?php } ?>
 
                       <td>
-                        <div class="order-wrapper">
-                          <a href="<?= INCLUDE_PATH_PANEL.$page.'?order=up&id='.$value['id']; ?>"><i class="fas fa-angle-up"></i></a>
-                          <a href="<?= INCLUDE_PATH_PANEL.$page.'?order=down&id='.$value['id']; ?>"><i class="fas fa-angle-down"></i></a>
+                        <div class="order-wrapper" id="<?= $value['id'] ?>">
+                          <a href="#" class="order" order="up"><i class="fas fa-angle-up"></i></a>
+                          <a href="#" class="order" order="down"><i class="fas fa-angle-down"></i></a>
                         </div>
                       </td>
                         
@@ -60,8 +60,8 @@
 
         <div class="paginacao">
           <?php
-            for($i = 1; $i <= $data->items['total_pages']; $i++){
-              if($i == $data->items['currentPage'])
+            for($i = 1; $i <= $data['total_pages']; $i++){
+              if($i == $data['currentPage'])
                 echo "<a class='active' href='".INCLUDE_PATH_PANEL.$page."?pagina=$i'>$i</a>";
               else
                 echo "<a href='".INCLUDE_PATH_PANEL.$page."?pagina=$i'>$i</a>";

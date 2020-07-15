@@ -72,7 +72,7 @@ class Router
     private function call (string $callback, array $paramns)
     {
       [$controller, $method] = explode('@', $callback);
-
+      
       $controller = '\DevWeb\Control\\' . $controller;
       $method = $method ?? 'index';
 

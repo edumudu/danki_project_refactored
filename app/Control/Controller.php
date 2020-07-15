@@ -41,13 +41,13 @@ class Controller
             "token" => $_SESSION['online'] // Token unico
         ];
 
-        $online->insert($data);
+        $online->create($data);
     }
 
     if(!isset($_COOKIE['visita'])){
       $visita = new Visita;
       setcookie('visita', true, time() + (60*60*24*14)); // Cookie expira em 14 dias
-      $visita->insert(['ip' => getIP(), 'dia' => date('Y-m-d')]);
+      $visita->create(['ip' => getIP(), 'dia' => date('Y-m-d')]);
     }
   }
 

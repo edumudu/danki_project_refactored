@@ -3,26 +3,26 @@
       <div class="aside-wrapper">
           <div class="box-user">
               <?php
-                  if($_SESSION['img'] == ''){
+                  if(auth()->user->img == ''){
               ?>
               <div class="avatar-user">
                   <i class="fas fa-user"></i>
               </div><!--avatar-user-->
               <?php }else{ ?>
                   <div class="img-user">
-                      <img src="<?= asset('images/uploads/' . $_SESSION['img']); ?>" />
+                      <img src="<?= asset('images/uploads/' . auth()->user->img); ?>" />
                   </div><!--avatar-user-->
               <?php } ?>
 
               <div class="username">
-                  <p><?= $_SESSION['name'];?></p>
+                  <p><?= auth()->user->name ?></p>
                   <p class="cargo"><?= getCargo() ?></p>
               </div>
           </div><!--box-user-->
 
           <div class="menu-items">
               <?php
-                foreach ($data->menus as $key => $items) {
+                foreach ($menus as $key => $items) {
               ?>
               <h2><?= $key ?></h2>
               <ul class="gestao">
@@ -46,7 +46,7 @@
 
           <div class="icons-header">
               <div class="btn-home">
-                  <a class="<?= $data->current_page == '' ? 'active' : '';?>" href="<?= INCLUDE_PATH_PANEL?>"><i class="fas fa-home"></i> <span>Página inicial</span></a>
+                  <a class="<?= $current_page == '' ? 'active' : '';?>" href="<?= INCLUDE_PATH_PANEL?>"><i class="fas fa-home"></i> <span>Página inicial</span></a>
               </div><!--btn-home-->
 
               <div class="logout">

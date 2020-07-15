@@ -22,8 +22,8 @@ class SlideController extends ControllerPanel
     $view = $this->view('Panel\\ViewPanel');
 
     $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-    $total_pages = ceil(count($this->slide->selectAll(['id'])) / $this->perPage);
-    $slides = $this->slide->selectAll(
+    $total_pages = ceil(count($this->slide->all(['id'])) / $this->perPage);
+    $slides = $this->slide->all(
       ['*'],
       null,
       'order_id ASC',
@@ -34,11 +34,11 @@ class SlideController extends ControllerPanel
     $view->render('templates/list-template', [
       "can_edit"      => $this->cargo >= $this->edit_level,
       "base_uri"      => $this->base_uri,
-      "items"         => [
+      "data"         => [
         "total_pages" => $total_pages,
         "results"     => $slides,
         "currentPage" => $currentPage,
-        "columns"     => $this->slide->getColumns()
+        "columns"     => $this->slide->getFields()
       ],
       "menus"         => $this->menus_actives,
       "img_field"     => $this->image_field
@@ -48,7 +48,7 @@ class SlideController extends ControllerPanel
   public function create ()
   {
     if ( $this->cargo <= $this->edit_level )
-      return;
+      return self::redirect('/panel/permission-denied');
 
     $view = $this->view('Panel\\ViewPanel');
 
@@ -74,7 +74,7 @@ class SlideController extends ControllerPanel
     $data['name'] = $_POST['name'];
     $data['slide'] = $img ?: null;
 
-    $this->slide->insert($data);
+    $this->slide->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
   }
@@ -131,6 +131,16 @@ class SlideController extends ControllerPanel
 
       $this->slide->delete(['id' => $id]);
     }
+  }
+
+  public function order () {
+    $order = $_POST['order'];
+    $id = $_POST['id'];
+
+    if(!($order && $id))
+      return;
+
+    $this->slide->order($id, $order);
   }
 }
 

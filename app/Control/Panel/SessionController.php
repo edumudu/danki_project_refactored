@@ -3,6 +3,7 @@
 namespace DevWeb\Control\Panel;
 
 use DevWeb\Model\Painel;
+use DevWeb\Model\Request;
 use DevWeb\Model\User;
 
 class SessionController extends ControllerPanel
@@ -12,7 +13,7 @@ class SessionController extends ControllerPanel
   public function create() {
     $this->verifyCookie();
 
-    if ($_SESSION['login'])
+    if (auth()->isLogged)
       self::redirect(INCLUDE_PATH_PANEL);
 
     $view = $this->view('Panel\\ViewPanel');
@@ -21,9 +22,11 @@ class SessionController extends ControllerPanel
     ], false);
   }
 
-  public function store ($data)
+  public function store ()
   {
+    $request = new Request;
     $this->verifyCookie();
+    $data = $request->all();
 
     $user = new User;
 
@@ -34,9 +37,9 @@ class SessionController extends ControllerPanel
     
     if($info_login){
       if(isset($data['remember-login'])){
-          setcookie('lembrar',true, time() + (60*60*24*2), '/');
-          setcookie('user', $username, time() + (60*60*24*2), '/');
-          setcookie('password', $password, time() + (60*60*24*2), '/');
+        setcookie('lembrar',true, time() + (60*60*24*2), '/');
+        setcookie('user', $username, time() + (60*60*24*2), '/');
+        setcookie('password', $password, time() + (60*60*24*2), '/');
       }
       
       $this->setSession($info_login);
@@ -57,12 +60,9 @@ class SessionController extends ControllerPanel
 
   private function setSession ($info)
   {
-    $_SESSION['login'] = true;
-    $_SESSION['id'] = $info['id'];
-    $_SESSION['user'] = $info['user'];
-    $_SESSION['cargo'] = $info['cargo'];
-    $_SESSION['name'] = $info['name'];
-    $_SESSION['img'] = $info['img'];
+    unset($info['password']);
+    $_SESSION['auth']['user'] = $info;
+    $_SESSION['auth']['isLogged'] = true;
   }
 
   private function verifyCookie ()

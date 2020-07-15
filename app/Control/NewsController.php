@@ -19,8 +19,8 @@ class NewsController extends Controller
       $info = [
         'title'       => 'Noticias',
         'info_author' => $site->selectSingle(['id' => 1], ['name_author', 'descricao']),
-        'categorias'  => $category->selectAll(['*'], null, 'order_id ASC'),
-        'noticias'     => $notice->selectAll(['*'], null, 'date ASC')
+        'categorias'  => $category->all(['*'], null, 'order_id ASC'),
+        'noticias'     => $notice->all(['*'], null, 'date ASC')
       ];
 
       $view = $this->view('View');
