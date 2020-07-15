@@ -3,6 +3,7 @@
 namespace DevWeb\Control\Panel;
 
 use DevWeb\Model\File;
+use DevWeb\Model\Request;
 use DevWeb\Model\User;
 
 class UserController extends ControllerPanel
@@ -33,19 +34,15 @@ class UserController extends ControllerPanel
 
   public function store ()
   {
-    if (!isset($_POST)) return;
-
-    $img = $_FILES[$this->image_field];
+    $request = new Request;
+    $img = $request->files($this->image_field);
 
     if (!File::validImg($img)) {
       return;
     }
     
     $img = File::uploadFile($img);
-    $data['name'] = $_POST['name'];
-    $data['user'] = $_POST['user'];
-    $data['password'] = $_POST['password'];
-    $data['cargo'] = $_POST['cargo'];
+    $data = $request->only(['name', 'user', 'passowrd', 'cargo']);
     $data[$this->image_field] = $img ?: null;
 
     $this->user->create($data);
@@ -70,17 +67,15 @@ class UserController extends ControllerPanel
 
   public function update ()
   {
-    $img = $_FILES[$this->image_field];
+    $request = new Request;
+    $img = $request->files($this->image_field);
 
     if (!File::validImg($img)) {
       return;
     }
 
+    $data = $request->only(['name', 'user', 'passowrd', 'cargo']);
     $img = File::uploadFile($img);
-    $data['name'] = $_POST['name'];
-    $data['user'] = $_POST['user'];
-    $data['password'] = $_POST['password'];
-    $data['cargo'] = $_POST['cargo'];
     $data['img'] = $img;
     
     if($this->user->update($data, ['id' => auth()->user->id])) {

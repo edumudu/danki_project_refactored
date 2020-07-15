@@ -4,6 +4,7 @@ namespace DevWeb\Control\Panel;
 
 use DevWeb\Model\File;
 use DevWeb\Model\Notice;
+use DevWeb\Model\Request;
 
 class NoticeController extends ControllerPanel
 {
@@ -18,9 +19,10 @@ class NoticeController extends ControllerPanel
 
   public function index () 
   {
+    $request = new Request;
     $view = $this->view('Panel\\ViewPanel');
 
-    $currentPage = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $currentPage = $request->query()->get('pagina', 1);
     $total_pages = ceil(count($this->notice->all(['id'])) / $this->perPage);
     $notices = $this->notice->all(
       ['*'],
@@ -61,15 +63,13 @@ class NoticeController extends ControllerPanel
 
   public function store ()
   {
-    if (!isset($_POST)) return;
+    $request = new Request;
 
-    $data['title'] = $_POST['title'];
-    $data['conteudo'] = $_POST['conteudo'];
+    $data = $request->only(['title', 'conteudo', 'categoria_ref']);
     $data['slug'] = str_replace(' ', '-', mb_strtolower($data['title']));
     $data['date'] = date("Y-m-d");
-    $data['categoria_ref'] = $_POST['categoria_ref'];
 
-    $img = $_FILES[$this->image_field];
+    $img = $request->files($this->image_field);;
 
     if(File::validImg($img, 1500) && $img_name = File::uploadFile($img)) {
       $data[$this->image_field] = $img_name;
