@@ -1,51 +1,53 @@
 <section class="box-content b1">
-    <h2><i class="fas fa-user-edit"></i> Editar Depoimento</h2>
+  <h2>
+    <i class="fas fa-user-edit"></i>
 
-    <form method="POST" enctype="multipart/form-data">
-        <?php
-            // if(isset($_POST['acao'])){
-            //     $_POST['date'] = date('Y-m-d');
-            //     if(Painel::update($tb, $_POST, ['id' => $id])){
-            //         Painel::alert('success','Depoimento atualizado com sucesso.');
-            //         $depoimento = Painel::selectSingle('tb_site.depoimentos', ['id' => $id]);
-            //     }else
-            //         Painel::alert('error','Campos vazios não são permitidos.');
-            // }
-        ?>
+    Editar Depoimento
+  </h2>
 
-        <?php foreach ($columns as $value) { ?>
-          <div class="form-group <?= $value['name'] === $img_field ? 'file' : '' ?>">
-              <label>
-                <?= ucfirst($value['name']) ?>:
+  <form method="POST" enctype="multipart/form-data">
+    <?php foreach ($columns as $value) { ?>
+      <div class="form-group <?= $value['name'] === $img_field ? 'file' : '' ?>">
+        <label>
+          <?= ucfirst($value['name']) ?>:
 
-                <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
-                  <textarea
-                    id="name"
-                    type="text"
-                    name="<?= $value['name'] ?>"
-                    required
-                  >
-                    <?= $item[$value['name']] ?>
-                  </textarea>
-                <?php } else if (isset($img_field) && $value['name'] === $img_field) { ?>
-                  <label class="fake-file">Upload
-                    <input type="file" accept="image/*" name="<?= $value['name'] ?>" />
-                  </label>
-                <?php } else { ?>
-                  <input
-                    id="name"
-                    type="text"
-                    name="<?= $value['name'] ?>"
-                    value="<?= $item[$value['name']] ?>"
-                    required
-                  />
-                <?php } ?>
-              </label>
-          </div><!--form-group-->
-        <?php } ?>
+          <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
+            <textarea
+              id="name"
+              type="text"
+              name="<?= $value['name'] ?>"
+              required
+            >
+              <?= $item[$value['name']] ?>
+            </textarea>
+          <?php } else if (isset($img_field) && $value['name'] === $img_field) { ?>
+            <label class="fake-file">Upload
+              <input
+                type="file"
+                accept="image/*"
+                name="<?= $value['name'] ?>" 
+              />
+            </label>
+          <?php } else { ?>
+            <input
+              id="name"
+              type="text"
+              name="<?= $value['name'] ?>"
+              value="<?= $item[$value['name']] ?>"
+              required
+            />
+          <?php } ?>
+        </label>
+      </div>
+      <!--form-group-->
+    <?php } ?>
 
-        <div class="form-group">
-            <input class="btn-form" type="submit" name="acao" value="Atualizar" />
-        </div><!--form-group-->
-    </form>
-</section><!--box-content-->
+    <div class="form-group">
+      <button class="btn-form" type="submit">
+        Atualizar
+      </button>
+    </div>
+    <!--form-group-->
+  </form>
+</section>
+<!--box-content-->

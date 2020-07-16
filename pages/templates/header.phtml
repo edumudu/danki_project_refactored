@@ -1,32 +1,124 @@
-<div class="success">Formulario enviado com sucesso!</div>
-<div class="fail">Algo deu errado e seu formulario não foi enviado, por favor tente novamente mais tarde.</div>
-<div id="ajax-loader"><img src="images/ajax-loader.gif" /></div>
+<div class="success">
+  Formulario enviado com sucesso!
+</div>
+
+<div class="fail">
+  Algo deu errado e seu formulario não foi enviado, por favor tente novamente mais tarde.
+</div>
+
+<div id="ajax-loader">
+  <img src="images/ajax-loader.gif" />
+</div>
 
 <header>
   <div class="container flex space">
     <div class="logo">
-      <a href="<?= route('/') ?>">logomarca</a>
-    </div><!--logo-->
+      <a href="<?= route('/') ?>">
+        logomarca
+      </a>
+    </div>
+    <!--logo-->
     <nav class="desktop">
       <ul>
-        <li><a title="Home" href="<?= route('/') ?>">Home</a></li> <!--title otimiza o SEO-->
-        <li><a title="Sobre" href="#about">Sobre</a></li>
-        <li><a title="Serviços" href="#services">Serviços</a></li>
-        <li><a title="Contato" href="<?= route('/contato') ?>">Contato</a></li>
-        <li><a title="Noticias" href="<?= route('/news') ?>">Noticias</a></li>
+        <li>
+          <a
+            title="Home"
+            href="<?= route('/') ?>"
+          >
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a
+            title="Sobre"
+            href="#about"
+          >
+            Sobre
+          </a>
+        </li>
+
+        <li>
+          <a
+            title="Serviços"
+            href="#services"
+          >
+            Serviços
+          </a>
+        </li>
+
+        <li>
+          <a
+            title="Contato"
+            href="<?= route('/contato') ?>"
+          >
+            Contato
+          </a>
+        </li>
+
+        <li>
+          <a
+            title="Noticias"
+            href="<?= route('/news') ?>"
+          >
+            Noticias
+          </a>
+        </li>
       </ul>
-    </nav><!--desktop-->
+    </nav>
+    <!--desktop-->
 
     <nav class="mobile">
       <i class="fas fa-bars"></i>
+
       <ul>
-        <li><a title="Home" href="<?= route('/') ?>">Home</a></li>
-        <li><a title="Sobre" href="<?= route('/') ?>#about">Sobre</a></li>
-        <li><a title="Serviços" href="<?= route('/') ?>#services">Serviços</a></li>
-        <li><a title="Contato" href="<?= route('/contato') ?>">Contato</a></li>
-        <li><a title="Noticias" href="<?= route('/news') ?>">Noticias</a></li>
+        <li>
+          <a
+            title="Home"
+            href="<?= route('/') ?>"
+          >
+            Home
+          </a>
+        </li>
+        
+        <li>
+          <a
+            title="Sobre"
+            href="<?= route('/') ?>#about"
+          >
+            Sobre
+          </a>
+        </li>
+
+        <li>
+          <a
+            title="Serviços"
+            href="<?= route('/') ?>#services"
+          >
+            Serviços
+          </a>
+        </li>
+        
+        <li>
+          <a
+            title="Contato"
+            href="<?= route('/contato') ?>"
+          >
+            Contato
+          </a>
+        </li>
+
+        <li>
+          <a
+            title="Noticias"
+            href="<?= route('/news') ?>"
+          >
+            Noticias
+          </a>
+        </li>
       </ul>
-    </nav><!--mobile-->
+    </nav>
+    <!--mobile-->
   </div>
 </header>
 
