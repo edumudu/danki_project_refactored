@@ -1,4 +1,4 @@
-$(function(){
+(function(){
 
   let open = $('aside').is(':visible'),
       targetSize  = getSize();
@@ -62,4 +62,4 @@ $(function(){
       }
     })
   })
-})
+})()
