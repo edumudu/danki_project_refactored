@@ -76,7 +76,7 @@ class DB
   {
     $clauses = array_map(fn($key) => "`$key` $operator :$key", $columns);
 
-    return " WHERE " . implode(' AND ', $clauses);
+    return " WHERE " . implode(' AND ', $clauses) . " ";
   }
 
   public function table(string $table) : DB
@@ -119,7 +119,7 @@ class DB
     return $this;
   }
 
-  public function select (array $columns) : DB
+  public function select (array $columns = []) : DB
   {
     $this->query = $this->buildQuerySelect($columns);
     $this->parameters = [];
@@ -136,6 +136,21 @@ class DB
     $sql = self::connect()->prepare($this->query);
     
     return $sql->execute($where);
+  }
+
+  public function orderBy (string $column, string $order = 'ASC') : DB
+  {
+    $this->query .= "ORDER BY $column $order ";
+
+    return $this;
+  }
+
+  public function limit (int $start, int $end = null) : DB
+  {
+    $this->query .= "LIMIT $start";
+    if ($end) $this->query .= ", $end";
+
+    return $this;
   }
 
   public function get() : array

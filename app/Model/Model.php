@@ -175,18 +175,18 @@ class Model extends DB
 
     switch($orderType){
       case 'up':
-        $itemArround = $this->select([])->where(['order_id' => $item['order_id']], '<')->get()[0];
-        // $itemArround = mySQL::connect()->query($this->buildQuerySelect() . " WHERE `order_id` < $item[order_id] ORDER BY order_id DESC LIMIT 1");
+        $operator = '<';
+        $sorted = 'DESC';
         break;
       case 'down':
-        $itemArround = $this->select([])->where(['order_id' => $item['order_id']], '>')->get()[0];
-        // $itemArround = mySQL::connect()->query($this->buildQuerySelect() . " WHERE `order_id` > $item[order_id] ORDER BY order_id ASC LIMIT 1");
+        $operator = '>';
+        $sorted = 'ASC';
         break;
     }
 
+    $itemArround = $this->select()->where(['order_id' => $item['order_id']], $operator)->orderBy('order_id', $sorted)->limit(1)->get()[0];
+    
     if(count($itemArround) == 0) return false;
-
-    // $itemArround = $itemArround->fetch();
 
     if(!$this->update(["order_id" => $itemArround['order_id']], ['id' => $id])) return false;
     if(!$this->update(["order_id" => $item['order_id']], ['id' => $itemArround['id']])) return false;
