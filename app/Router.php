@@ -24,7 +24,7 @@ class Router
 
       $uri = substr($path, 0, 1) !== '/' ? '/' . $path : $path;
       $pattern = str_replace('/', '\/', $uri);
-      $pattern = preg_replace('/{\w+}/', '(\w+)', $pattern);
+      $pattern = preg_replace('/{\w+}/', '(\w+(?:-\w+)*)', $pattern);
       $route = '/^' . $pattern . '$/';
 
       $this->routes[$method][$route] = $callback;
