@@ -1,0 +1,13 @@
+.btn-delete,
+.btn-edit {
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  padding: 4px 6px;
+  color: white;
+  font-size: 13px;
+  border-radius: 10px;
+}
+
+.btn-edit { background-color: #F4B03E; }
+.btn-delete { background-color: #E05C4E; }

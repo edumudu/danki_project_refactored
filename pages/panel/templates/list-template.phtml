@@ -1,0 +1,113 @@
+<?php
+// if(isset($_GET['excluir'])){
+// }else if(isset($_GET['order'])){
+//     Painel::orderItem($tb,$_GET['order'],$_GET['id']);
+//     Painel::cleanUrlJs(INCLUDE_PATH_PANEL.$page);
+// }
+?>
+
+<section class="box-content b1">
+  <h2>
+    <i class="fas fa-id-card-alt"></i> 
+
+    Depoimentos cadastrados
+  </h2>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <?php
+          foreach ($data["columns"] as $value) {
+            if ($value['name'] !== 'id' && $value['name'] !== 'order_id')
+              echo "<th>" . ucfirst($value['name']) . "</th>";
+          }
+          ?>
+
+          <?php if ($can_edit) { ?>
+            <th>Editar</th>
+            <th>Deletar</th>
+          <?php } ?>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <?php foreach ($data['results'] as $value) {
+          echo "<tr>";
+          foreach ($value as $key => $col) {
+            if (is_string($key) && $key !== 'id' && $key !== 'order_id') {
+              if (isset($img_field) && $key === $img_field) {
+                echo "<td><img src='" . asset('/images/uploads/' . $value['slide']) . "' /></td>";
+                continue;
+              }
+        ?>
+              <td><?= $col; ?></td>
+          <?php }
+          } ?>
+          <?php if ($can_edit) { ?>
+            <td>
+              <a
+                class="btn-edit"
+                href="<?= INCLUDE_PATH_PANEL . $base_uri . '/edit?id=' . $value['id']; ?>"
+              >
+                <i class="fas fa-edit"></i> 
+
+                Editar
+              </a>
+            </td>
+
+            <td>
+              <a
+                class="btn-delete"
+                href="#"
+                id-ref="<?= $value['id'] ?>"
+              >
+                <i class="fas fa-trash-alt"></i> 
+
+                Excluir
+              </a>
+            </td>
+          <?php } ?>
+
+          <td>
+            <div
+              class="order-wrapper"
+              id="<?= $value['id'] ?>"
+            >
+              <a
+                href="#"
+                class="order"
+                order="up"
+              >
+                <i class="fas fa-angle-up"></i>
+              </a>
+
+              <a
+                href="#"
+                class="order"
+                order="down"
+              >
+                <i class="fas fa-angle-down"></i>
+              </a>
+            </div>
+          </td>
+
+          <?= "</tr>"; ?>
+        <?php } ?>
+      </tbody>
+    </table>
+
+    <!-- <div class="paginacao">
+      <?php
+      // for ($i = 1; $i <= $data['total_pages']; $i++) {
+      //   if ($i == $data['currentPage'])
+      //     echo "<a class='active' href='" . INCLUDE_PATH_PANEL . $page . "?pagina=$i'>$i</a>";
+      //   else
+      //     echo "<a href='" . INCLUDE_PATH_PANEL . $page . "?pagina=$i'>$i</a>";
+      // }
+      ?>
+    </div> -->
+
+  </div>
+</section>

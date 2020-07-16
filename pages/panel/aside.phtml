@@ -1,0 +1,87 @@
+<div class="panel-top">
+  <aside>
+    <div class="aside-wrapper">
+        <div class="box-user">
+            <?php
+              if (!auth()->user->img){
+            ?>
+              <div class="avatar-user">
+                <i class="fas fa-user"></i>
+              </div><!--avatar-user-->
+            <?php } else { ?>
+              <div class="img-user">
+                <img src="<?= asset('images/uploads/' . auth()->user->img); ?>" />
+              </div><!--avatar-user-->
+            <?php } ?>
+
+            <div class="username">
+              <p>
+                <?= auth()->user->name ?>
+              </p>
+
+              <p class="cargo">
+                <?= getCargo() ?>
+              </p>
+            </div>
+        </div><!--box-user-->
+
+        <div class="menu-items">
+            <?php
+              foreach ($menus as $key => $items) {
+            ?>
+            <h2>
+              <?= $key ?>
+            </h2>
+
+            <ul class="gestao">
+              <?php foreach($items as $value) { ?>
+                <li>
+                  <a href="<?= INCLUDE_PATH_PANEL . $value['path'] ?>">
+                    <?= $value['text'] ?>
+                  </a>
+                </li>
+              <?php } ?>
+            </ul>
+            <?php } ?>
+        </div>
+    </div>
+  </aside>
+
+  <div>
+    <header>
+      <div class="container">
+        <div class="menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="icons-header">
+          <div class="btn-home">
+            <a
+              class="<?= $current_page == '' ? 'active' : '';?>"
+              href="<?= INCLUDE_PATH_PANEL?>"
+            >
+              <i class="fas fa-home"></i> 
+              
+              <span>
+                Página inicial
+              </span>
+            </a>
+          </div><!--btn-home-->
+
+          <div class="logout">
+            <a href="<?= INCLUDE_PATH_PANEL ?>/logout">
+              <i class="fas fa-sign-out-alt"></i> 
+
+              <span>
+                Sair
+              </span>
+            </a>
+          </div><!--logout-->
+        </div>
+      </div>
+    </header>
+    
+    <main>
+                  
+
+              

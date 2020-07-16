@@ -1,0 +1,131 @@
+.header-noticias {
+  width: 100%;
+  background-color: #333864;  
+  padding: 40px 0;
+}
+
+.header-noticias h2:nth-of-type(1) { font-size: 41px; }
+
+.header-noticias h2 {
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.header-noticias h2 > b { color: #F40B5C; }
+section.container-portal { padding: 50px 0; }
+section.container-portal > .container { display: flex; }
+section.container-portal aside{ flex: 1 30%; }
+
+.box-content-sidebar {
+  background-color: #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  color: #333864;
+  margin-bottom: 50px;
+}
+
+.box-content-sidebar h3 {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.box-content-sidebar form input,
+.box-content-sidebar form select {
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgb(220,220,220);
+  border-radius: 10px;
+  padding-left: 8px;
+  outline: none;
+  margin-top: 10px;
+}
+
+.box-content-sidebar form [type=submit] {
+  cursor: pointer;
+  background-color: #F40B4C;
+  color: white;
+  border: 0;
+  text-transform: uppercase;
+  padding: 8px 15px;
+  margin-top: 10px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.autor-box-portal {
+  margin-top: 10px;
+  text-emphasis: center;
+}
+
+.autor-box-portal > img {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  display: block;
+  border-radius: 50%;
+}
+
+.text-autor-portal {
+  color: #646464;
+}
+
+.text-autor-portal h3 {
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+.text-autor-portal {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+section.container-portal main {
+  flex: 1 70%;
+  padding-left: 50px;
+}
+
+.header-content-portal {
+  color: #333864;
+}
+
+.header-content-portal h2 {
+  font-size: 23px;
+}
+
+.header-content-portal h2 > span {
+  border-bottom: 4px solid #333864;
+}
+
+.box-single-content {
+  margin: 15px 0;
+  padding: 15px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.box-single-content h2,
+.box-single-content p {
+  color: #646464;
+  font-weight: normal;
+  font-size: 22px;
+}
+
+.box-single-content p {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.box-single-content a {
+  background-color: #00B95C;
+  display: inline-block;
+  padding: 8px 15px;
+  margin-top: 10px;
+  font-size: 15px;
+  color: white;
+}
+
+@media screen and (max-width: 768px){
+  section.container-portal > .container { flex-direction: column; }
+  section.container-portal main { padding-left: 0; }
+}

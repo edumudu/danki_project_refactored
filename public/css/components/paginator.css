@@ -1,0 +1,17 @@
+.paginacao {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.paginacao a {
+  font-size: 14px;
+  margin: 0 6px;
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #666;
+  box-shadow: 0 0 7px 1px #ccc;
+}
+
+.paginacao a.active { background-color: rgba(0,0,0,0.14); }

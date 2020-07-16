@@ -3,51 +3,27 @@
     Todo: Variavel global cargos.
 */
 
-    session_start();
-    date_default_timezone_set('America/Sao_Paulo');
+  session_start();
+  date_default_timezone_set('America/Sao_Paulo');
 
-    $autoload = function($class){
-        if($class == "Email"){
-            require_once("classes/PHPMailer/src/Exception.php");
-            require_once("classes/PHPMailer/src/PHPMailer.php");
-            require_once("classes/PHPMailer/src/SMTP.php");
-        }
-        
-        include('classes/'.$class.'.php');
-    };
+  define('PATH', stripos($_SERVER['SERVER_PROTOCOL'], 'https') === 0 ? 'https://' : 'http://' . $_SERVER['HTTP_HOST']);
+  define('INCLUDE_PATH_PANEL', PATH . '/panel');
 
-    spl_autoload_register($autoload);
+  define('BASE_DIR', __DIR__);
 
-    define('INCLUDE_PATH', 'http://localhost/Curso_Desenvolvimento_Web_Completo/Projetos/Projeto_01/');
-    define('INCLUDE_PATH_PANEL',INCLUDE_PATH.'panel/');
+  //Database
+  define('HOST','127.0.0.1');
+  define('USER','root');
+  define('PASSWORD','password');
+  define('DATABASE','projeto_01');
 
-    define('BASE_DIR_PANEL', __DIR__.'/panel/');
+  //Constantes para o painle de controle
+  define('NOME_EMPRESA','Danki Code');    
 
-    //Database
-    define('HOST','localhost');
-    define('USER','root');
-    define('PASSWORD','');
-    define('DATABASE','projeto_01');
-
-    //Constantes para o painle de controle
-    define('NOME_EMPRESA','Danki Code');    
-
-    //Funcoes do painel
-    function getCargo($cargo){
-        return Painel::$cargos[$cargo];
+  function recoverPost($key){
+    if(isset($_POST[$key])){
+      echo $_POST[$key];
     }
-
-    function selectedMenu($par){
-        $url = explode('/',@$_GET['url'])[0];
-        if($url == $par){
-            echo 'class="active"';
-        }
-    }
-
-    function recoverPost($key){
-        if(isset($_POST[$key])){
-            echo $_POST[$key];
-        }
-    }
+  }
 
 ?>

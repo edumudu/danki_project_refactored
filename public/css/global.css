@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing :border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body > main { flex: 1; }
+
+img { max-width: 100%; }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input {
+  border-radius: 0;
+  appearance: none;
+}
+
+textarea { resize: vertical; }
+
+ul[class],
+ol[class] {
+  list-style-type: none;
+}
