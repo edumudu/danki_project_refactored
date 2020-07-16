@@ -1,92 +1,87 @@
-/*
-	Made By Guilherme Grillo - Danki Code
-*/
+(function () {
 
-$(function(){
+  var map;
 
-	var map;
-	
-	function initialize() {
-	  var mapProp = {
-	    center:new google.maps.LatLng(-20.003133,-44.017090),
-	    zoom:15,
-	   	scrollwheel: false,
-	   	disableDefaultUI: true,
-	     styles: [{
-	    stylers: [{
-	      saturation: -100
-	    }]
-	     }],
-	    mapTypeId:google.maps.MapTypeId.ROADMAP
-	  };
-	  
-	  map=new google.maps.Map(document.getElementById("map"),mapProp);
-	}
+  function initialize() {
+    var mapProp = {
+      center: new google.maps.LatLng(-20.003133, -44.017090),
+      zoom: 15,
+      scrollwheel: false,
+      disableDefaultUI: true,
+      styles: [{
+        stylers: [{
+          saturation: -100
+        }]
+      }],
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
 
-	function addMarker(lat,long,icon,content,showInfoWindow,openInfoWindow){
-		  var myLatLng = {lat:lat,lng:long};
+    map = new google.maps.Map(document.getElementById("map"), mapProp);
+  }
 
-		  if(icon === ''){
-			   var marker = new google.maps.Marker({
-			    position: myLatLng,
-			    map: map,
-			    icon:icon
-			  });
-		  }else{
-			  var marker = new google.maps.Marker({
-			    position: myLatLng,
-			    map: map,
-			    icon:icon
-			  });
-		}
+  function addMarker(lat, long, icon, content, showInfoWindow, openInfoWindow) {
+    var myLatLng = { lat: lat, lng: long };
 
-		  var infoWindow = new google.maps.InfoWindow({
-	                content: content,
-	                maxWidth:200
-	        });
+    if (icon === '') {
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: icon
+      });
+    } else {
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: icon
+      });
+    }
 
-		  google.maps.event.addListener(infoWindow, 'domready', function() {
+    var infoWindow = new google.maps.InfoWindow({
+      content: content,
+      maxWidth: 200
+    });
 
-		   // Reference to the DIV which receives the contents of the infowindow using jQuery
-		   var iwOuter = $('.gm-style-iw');
+    google.maps.event.addListener(infoWindow, 'domready', function () {
 
-		   /* The DIV we want to change is above the .gm-style-iw DIV.
-		    * So, we use jQuery and create a iwBackground variable,
-		    * and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
-		    */
-		   var iwBackground = iwOuter.prev();
+      // Reference to the DIV which receives the contents of the infowindow using jQuery
+      var iwOuter = $('.gm-style-iw');
 
-		   // Remove the background shadow DIV
-		   iwBackground.children(':nth-child(2)').css({'background' : 'rgb(255,255,255)'}).css({'border-radius':'0px'});
+      /* The DIV we want to change is above the .gm-style-iw DIV.
+       * So, we use jQuery and create a iwBackground variable,
+       * and took advantage of the existing reference to .gm-style-iw for the previous DIV with .prev().
+       */
+      var iwBackground = iwOuter.prev();
 
-		   // Remove the white background DIV
-		   iwBackground.children(':nth-child(4)').css({'background' : 'rgb(255,255,255)'}).css({'border-radius':'0px'});
+      // Remove the background shadow DIV
+      iwBackground.children(':nth-child(2)').css({ 'background': 'rgb(255,255,255)' }).css({ 'border-radius': '0px' });
 
-		   // Moves the shadow of the arrow 76px to the left margin 
-			iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'display:none;'});
+      // Remove the white background DIV
+      iwBackground.children(':nth-child(4)').css({ 'background': 'rgb(255,255,255)' }).css({ 'border-radius': '0px' });
 
-			// Moves the arrow 76px to the left margin 
-			iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'display:none;'});
+      // Moves the shadow of the arrow 76px to the left margin 
+      iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'display:none;' });
 
-		});
-		  	if(showInfoWindow == undefined){
-		        google.maps.event.addListener(marker, 'click', function () {
-		              infoWindow.open(map, marker);
-		         });
-	    	}else if(openInfoWindow == true){
-	    		infoWindow.open(map, marker);
-	    	}
-	}
+      // Moves the arrow 76px to the left margin 
+      iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'display:none;' });
 
-	function moveMyMap(lat,long){
-		var latLng = new google.maps.LatLng(lat, long);
-		map.panTo(latLng);
-	}
-	
-	initialize();
+    });
 
-	addMarker(-20.003133,-44.017090,'','Minha Casa',undefined,false);
-	moveMyMap(-20.003133,-44.017090);
+    if (showInfoWindow == undefined) {
+      google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(map, marker);
+      });
+    } else if (openInfoWindow == true) {
+      infoWindow.open(map, marker);
+    }
+  }
 
+  function moveMyMap(lat, long) {
+    var latLng = new google.maps.LatLng(lat, long);
+    map.panTo(latLng);
+  }
 
-})
+  initialize();
+
+  addMarker(-20.003133, -44.017090, '', 'Minha Casa', undefined, false);
+  moveMyMap(-20.003133, -44.017090);
+})()
