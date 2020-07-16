@@ -261,12 +261,12 @@ section.banner-main form textarea{
     border: 0;
 }
 
-section.banner-main form input:not([type=submit]){
+section.banner-main form input {
     background-color: white;
     padding-left: 10px;
 }
 
-section.banner-main form input[type=submit]{
+section.banner-main form [type=submit]{
     cursor: pointer;
     color: white;
     background-color: #00C59E;
@@ -393,7 +393,7 @@ section.contato{
     padding: 40px 0;
 }
 
-section.contato input:not([type=submit]),
+section.contato input,
 section.contato textarea{
     width: 100%;
     height: 40px;
@@ -410,7 +410,7 @@ section.contato textarea{
 
 section.contato textarea{height: 120px;padding:8px;}
 
-section.contato input[type=submit]{
+section.contato [type=submit]{
     height: 40px;
     width: 120px;
     cursor: pointer;
@@ -468,7 +468,7 @@ section.container-portal aside{
     font-weight: normal;
 }
 
-.box-content-sidebar form input:not([type=submit]),
+.box-content-sidebar form input,
 .box-content-sidebar form select{
     width: 100%;
     height: 40px;
