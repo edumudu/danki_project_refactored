@@ -40,11 +40,23 @@ class NewsController extends Controller
       $view->render('news', $info);
     }
 
-    public function redirect_to_single($post)
+    public function show ($categorySlug, $newsSlug)
     {
-      $search_val = $post['parametro']; 
-      
-      self::redirect('/news/' . $search_val);
+      $notice = new Notice;
+      $category = new Category;
+
+      $category = $category->selectSingle(['slug' => $categorySlug]);
+      $notice = $notice->selectSingle(['slug' => $newsSlug, 'categoria_ref' => $category['id']]);
+
+      if (!$category || !$notice) {
+        self::redirect('/page-not-found');
+      }
+
+      $view = $this->view('View');
+      $view->render('news_single', [
+        'title'  => $notice['title'],
+        'notice' => $notice
+      ]);
     }
 
     public function search($categoryName)
