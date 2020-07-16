@@ -11,7 +11,7 @@ $router->get('/page-not-found', 'NotFoundController@index');
 $router->get('/contato', 'ContactController');
 $router->get('/news', 'NewsController');
 $router->get('/news/{category}', 'NewsController@search');
-// $router->post('/news', 'NewsController@redirect_to_single@index');
+$router->get('/news/{category}/{news}', 'NewsController@show');
 
 // Panel
 $router->get('/panel', 'Panel\\PanelHomeController');
