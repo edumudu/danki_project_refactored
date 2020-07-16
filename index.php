@@ -8,6 +8,8 @@ if($uri !== '/' && file_exists(__DIR__ . '/public' . $uri)){
   return false;
 }
 
+$uri = preg_replace('/\/$/', '', $uri);
+
 include "vendor/autoload.php";
 include 'config.php'; 
 include 'helpers.php';

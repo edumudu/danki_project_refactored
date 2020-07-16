@@ -66,6 +66,8 @@ class CategoryController extends ControllerPanel
     $request = new Request;
     
     $data = $request->only(['name']);
+    $data['slug'] = str_replace(' ', '-', mb_strtolower($data['name']));
+
     $this->category->create($data);
 
     return self::redirect('/panel' . $this->base_uri . '/create');
@@ -97,6 +99,7 @@ class CategoryController extends ControllerPanel
     $request = new Request;
 
     $data = $request->only(['name']);
+    $data['slug'] = str_replace(' ', '-', mb_strtolower($data['name']));
 
     $this->category->update($data, ['id' => (int)$request->query()->get('id')]);
 

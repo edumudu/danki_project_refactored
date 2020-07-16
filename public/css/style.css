@@ -479,7 +479,7 @@ section.container-portal aside{
     margin-top: 10px;
 }
 
-.box-content-sidebar form input[type=submit]{
+.box-content-sidebar form [type=submit]{
     cursor: pointer;
     background-color: #F40B4C;
     color: white;

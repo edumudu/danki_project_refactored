@@ -10,8 +10,8 @@ $router->get('/page-not-found', 'NotFoundController@index');
 
 $router->get('/contato', 'ContactController');
 $router->get('/news', 'NewsController');
-$router->post('/news', 'NewsController@redirect_to_single@index');
 $router->get('/news/{category}', 'NewsController@search');
+// $router->post('/news', 'NewsController@redirect_to_single@index');
 
 // Panel
 $router->get('/panel', 'Panel\\PanelHomeController');
