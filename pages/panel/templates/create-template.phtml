@@ -1,27 +1,58 @@
 <section class="box-content b1">
-    <h2><i class="fas fa-user-edit"></i> Adicionar Depoimento</h2>
+  <h2>
+    <i class="fas fa-user-edit"></i> 
 
-    <form method="POST" enctype="multipart/form-data">
-      <?php foreach ($columns as $value) { ?>
-        <div class="form-group <?= $value['name'] === $img_field ? 'file' : '' ?>">
-            <label>
-              <?= ucfirst($value['name']) ?>:
+    Adicionar Depoimento
+  </h2>
 
-              <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
-                <textarea id="name" type="text" name="<?= $value['name'] ?>"  required></textarea>
-              <?php } else if (isset($img_field) && $value['name'] === $img_field) { ?>
-                <label class="fake-file">Upload
-                  <input type="file" accept="image/*" name="<?= $value['name'] ?>" />
-                </label>
-              <?php } else { ?>
-                <input id="name" type="text" name="<?= $value['name'] ?>"  required />
-              <?php } ?>
+  <form
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <?php foreach ($columns as $value) { ?>
+      <div class="form-group <?= $value['name'] === $img_field ? 'file' : '' ?>">
+        <label>
+          <?= ucfirst($value['name']) ?>:
+
+          <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
+            <textarea
+              id="name"
+              type="text"
+              name="<?= $value['name'] ?>"
+              required
+            ></textarea>
+          <?php } else if (isset($img_field) && $value['name'] === $img_field) { ?>
+            <label class="fake-file">
+              Upload
+
+              <input
+                type="file"
+                accept="image/*"
+                name="<?= $value['name'] ?>"
+              />
             </label>
-        </div><!--form-group-->
-      <?php } ?>
+          <?php } else { ?>
+            <input
+              id="name"
+              type="text"
+              name="<?= $value['name'] ?>"
+              required
+            />
+          <?php } ?>
+        </label>
+      </div>
+      <!--form-group-->
+    <?php } ?>
 
-      <div class="form-group">
-        <input class="btn-form" type="submit" name="acao" value="Cadastrar" />
-      </div><!--form-group-->
-    </form>
-</section><!--box-content-->
+    <div class="form-group">
+      <button
+        class="btn-form"
+        type="submit"
+      >
+        Cadastrar
+      </button>
+    </div>
+    <!--form-group-->
+  </form>
+</section>
+<!--box-content-->

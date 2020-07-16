@@ -4,11 +4,13 @@ $uri = urldecode(
   parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );
 
-if($uri !== '/' && file_exists(__DIR__ . '/public' . $uri)){
-  return false;
+if($uri !== '/'){
+  $uri = preg_replace('/\/$/', '', $uri);
+  
+  if(file_exists(__DIR__ . '/public' . $uri)) {
+    return false;
+  }
 }
-
-$uri = preg_replace('/\/$/', '', $uri);
 
 include "vendor/autoload.php";
 include 'config.php'; 
