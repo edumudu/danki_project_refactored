@@ -1,0 +1,17 @@
+section.descricao-author {
+  padding: 40px 0;
+  color: #444;
+}
+
+section.descricao-author > .container .c2:nth-of-type(2) { max-width: 400px; }
+
+section.descricao-author h2 {
+  font-size: 28px;
+  font-weight: 300;
+}
+
+section.descricao-author p {
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: 300;
+}

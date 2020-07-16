@@ -1,0 +1,30 @@
+section.news-single {
+  padding: 40px 0;
+  color: #646464;
+}
+
+section.news-single header { background-color:  transparent; }
+
+section.news-single header > h1 {
+  font-size: 30px;
+  border-bottom: 2px solid #646464;
+}
+
+section.news-single article { margin-top: 20px; }
+
+section.news-single ul {
+  list-style-position: inside;
+  margin: 10px 0;
+}
+
+section.news-single article h2,
+section.news-single article h3,
+section.news-single article h4,
+section.news-single article h5,
+section.news-single article h6,
+section.news-single article p { margin: 10px 0; }
+
+section.news-single img {
+  display: block;
+  margin: 10px auto;
+}
