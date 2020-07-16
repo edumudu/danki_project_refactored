@@ -1,0 +1,19 @@
+.b1 {
+  flex-basis: 100%;
+  width:100%;
+}
+
+.b2 {
+  flex-basis: 49%;
+  width: 49%;
+}
+
+.b3{
+  flex-basis: 32%;
+  width: 32%;
+}
+
+@media screen and (max-width: 1100px){
+  .b2{ flex-basis: 100%; }
+  .b3{ flex-basis: 49%; }
+}

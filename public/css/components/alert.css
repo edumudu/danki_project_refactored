@@ -18,4 +18,18 @@
   color: #008000;
 }
 
-.fail { background-color: red; }
+.fail { background-color: #f75353; }
+
+.float,
+.float {
+  position: fixed;
+  width: auto;
+  top: 20px;
+  right: 20px;
+  border-radius: 20px;
+  padding: 15px 2%;
+  font-size: 14px;
+  color: white;
+  z-index: 15;
+  font-weight: bold;
+}
