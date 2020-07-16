@@ -1,10 +1,4 @@
 <?php
-    $thisUrl = explode('/',$_GET['url']);
-    $porPag = 10;
-    $pagina = isset($_GET['pag']) ? (int)$_GET['pag'] : 1;
-
-    
-
         // $categoria = isset($thisUrl[1]) ? Painel::selectSingle('tb_site.categorias',['slug' => $thisUrl[1]]) : null;
 
         // $query = Painel::buildQuerySelect('tb_site.noticias');
@@ -42,8 +36,13 @@
 
 <section class="header-noticias">
     <div class="container">
-        <h2><i class="far fa-bell"></i></h2>
-        <h2>Aconpanhe as ultimas <b>noticias do portal</b></h2>
+        <h2>
+          <i class="far fa-bell"></i>
+        </h2>
+
+        <h2>
+          Aconpanhe as ultimas <b>noticias do portal</b>
+        </h2>
     </div>
 </section>
 
@@ -51,36 +50,68 @@
     <div class="container">
         <aside> 
             <div class="box-content-sidebar">
-                <h3><i class="fas fa-search"></i> Realizar uma busca:</h3>
-                <form method="POST">
-                    <input type="text" name="parametro" placeholder="O que deseja procurar?" required >
-                    <input type="submit" name="buscar" value="pesquisar" />
+                <h3>
+                  <i class="fas fa-search"></i> Realizar uma busca:
+                </h3>
+
+                <form method="GET">
+                    <input
+                      type="text"
+                      name="parametro"
+                      placeholder="O que deseja procurar?"
+                      required 
+                    />
+
+                    <button type="submit">
+                      pesquisar
+                    </button>
                 </form>
             </div><!--box-content-sizebar-->
 
             <div class="box-content-sidebar">
-                <h3><i class="fas fa-list-ul"></i> Selecione a categoria:</h3>
+                <h3>
+                  <i class="fas fa-list-ul"></i> Selecione a categoria:
+                </h3>
+
                 <form>
                     <select name="categoria">
-                        <option value="" selected>Todas as categorias</option>
-                        <?php foreach($categorias as $value){?>
-                            <!-- <option <?php //if($value['slug'] == @$thisUrl[1]) echo "selected";?> value="<?php //echo $value['slug'];?>"><?php //echo ucfirst($value['name']);?></option> -->
-                            <option value="<?= $value['slug'] ?>"><?= ucfirst($value['name']) ?></option>
-                            <?php } ?>
+                        <option
+                          value=""
+                          selected
+                        >
+                          Todas as categorias
+                        </option>
+
+                        <?php foreach($categorias as $value) { ?>
+                          <option
+                            <?= strpos($base_url, $value['slug']) ? 'selected' : '' ?>
+                            value="<?= $value['slug'] ?>"
+                          >
+                            <?= ucfirst($value['name']) ?>
+                          </option>
+                        <?php } ?>
                     </select>
                 </form>
             </div><!--box-content-sizebar-->
 
             <div class="box-content-sidebar">
-                <h3><i class="fas fa-user"></i> Sobre o autor:</h3>
+                <h3>
+                  <i class="fas fa-user"></i> Sobre o autor:
+                </h3>
+
                 <div class="autor-box-portal">
                     <img src="<?= asset('images/pp.jpg') ?>" alt="author"/>
+
                     <div class="text-autor-portal">
-                        <h3><?= $info_author['name_author'] ?></h3>
-                        <p><?php
-                            echo substr($info_author['descricao'], 0, 500);
-                            echo strlen($info_author['descricao']) >= 500 ? '...' : '';
-                           ?>
+                        <h3>
+                          <?= $info_author['name_author'] ?>
+                        </h3>
+
+                        <p>
+                        <?php
+                          echo substr($info_author['descricao'], 0, 500);
+                          echo strlen($info_author['descricao']) >= 500 ? '...' : '';
+                        ?>
                         </p>
                     </div>
                 </div>
@@ -91,7 +122,7 @@
             <div class="header-content-portal">
                 <?php
                     if(!isset($search)){
-                        if($categoria['name'] == ''){
+                        if(!$categoria){
                             echo "<h2>Vizualizando todas as noticias</h2>";
                         }else{
                             echo "<h2>Vizualizando noticias em <span>$categoria[name]</span></h2>";
@@ -102,19 +133,30 @@
             </div>
 
             <?php
-                foreach($noticias as $value){
-                    $categoriaSlug = Painel::selectSingle('tb_site.categorias',['id' => $value['categoria_ref']])['slug'];
+              if(count($noticias)) {
+                foreach($noticias as $value) {
             ?>
 
-                <div class="box-single-content">
-                    <h2><?= date('d-m-Y',strtotime($value['date']))." - $value[title]" ?></h2>
-                    <p>
-                        <? echo substr(strip_tags($value['conteudo']),0 , 500).'...' ?>
-                    </p>
-                    <a href="<?= route('/') ?>news/<?= "$categoriaSlug/$value[slug]"?>">Leia Mais</a>
-                </div><!--box-sigle-content-->
+              <div class="box-single-content">
+                <h2>
+                  <?= date('d-m-Y',strtotime($value['date']))." - $value[title]" ?>
+                </h2>
 
-            <?php }?>
+                <p>
+                  <?= substr(strip_tags($value['conteudo']),0 , 500).'...' ?>
+                </p>
+
+                <a href="<?= route('/') ?>news/<?= $value['category']['name'] . "/$value[slug]"?>">
+                  Leia Mais
+                </a>
+              </div><!--box-sigle-content-->
+
+            <?php
+                }
+              } else {
+                echo "Nenhuma noticia encontrada :(";
+              }
+            ?>
 
             <!-- <div class="paginacao">
                 <?php                    

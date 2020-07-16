@@ -74,7 +74,7 @@ class DB
 
   protected function buildQueryWhere(array $columns, string $operator = '=') : string
   {
-    $clauses = array_map(fn($key) => "$key $operator :$key", $columns);
+    $clauses = array_map(fn($key) => "`$key` $operator :$key", $columns);
 
     return " WHERE " . implode(' AND ', $clauses);
   }
