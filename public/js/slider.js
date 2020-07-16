@@ -1,50 +1,62 @@
-$(function(){
-    let curSlide = 0,
-        delay = 3,
-        maxSlide = $('.slider') !== undefined ? $('.slider .slide-img').length - 1: 0,
-        imgs;
+(function () {
+  let curSlide = 0,
+    delay = 3,
+    maxSlide,
+    imgs,
+    bullets,
+    intervalSlide;
 
-    initSlider();
+  initSlider();
+  startInterval();
 
-    let intervalSlide = setInterval(function(){
-        changeSlide()
-    }, delay * 1000);
+  function startInterval() {
+    intervalSlide = setInterval(function () {
+      changeSlide(maxSlide > curSlide ? curSlide + 1 : 0);
+    }, delay * 1000)
+  }
 
-    $('.slider').on('click','.bullets span', function(){
-        changeBullet($(this).index());
-        curSlide = $(this).index();
+  function initSlider() {
+    imgs = document.querySelectorAll('.slider .slide-img');
+    maxSlide = imgs.length - 1;
+    hideAll();
+    imgs[0].style.display = 'block';
+
+    initBullets();
+  }
+
+  function initBullets() {
+    const bullet = document.createElement('span');
+    const bulletsWrapper = document.querySelector('.slider .bullets');
+
+    imgs.forEach(img => bulletsWrapper.appendChild(bullet.cloneNode()));
+
+    bulletsWrapper.children[curSlide].classList.add('active');
+    bullets = bulletsWrapper.children;
+
+    Array.from(bullets, (bullet, index) => {
+      bullet.addEventListener('click', function () {
+        changeSlide(index);
         clearInterval(intervalSlide);
-        changeSlide(true)
-        intervalSlide = setInterval(function(){
-            changeSlide();
-        }, delay * 1000)    
+
+        startInterval();
+      });
     })
+  }
 
-    function initSlider(){
-        imgs = $('.slider .slide-img');
-        imgs.hide();
-        imgs.eq(0).show();
-        initBullets();
-    }
+  function hideAll() {
+    Array.from(imgs, img => img.style.display = 'none');
+  }
 
-    function changeSlide(click=false){
-        imgs.fadeOut();
-        if(!click)
-            curSlide = curSlide >= maxSlide ? 0 : curSlide + 1;
-        imgs.eq(curSlide).fadeIn();
-        changeBullet(curSlide);
-    }
+  function changeSlide(index) {
+    hideAll();
 
-    function initBullets(){
-        let el = $('.slider .bullets') !== undefined ? $('.slider .bullets') : undefined;
-        for(let i = 0; i <= maxSlide; i++){
-            el.append("<span></span>");
-        }
-        el.find('span').eq(curSlide).addClass('active');
-    }
+    curSlide = index;
+    imgs[index].style.display = 'block';
+    changeBullet(index);
+  }
 
-    function changeBullet(i){
-        $('.slider .bullets span').removeClass('active');
-        $('.slider .bullets span').eq(i).addClass('active');
-    }
-})
+  function changeBullet(i) {
+    Array.from(bullets, bullet => bullet.classList.remove('active'));
+    bullets[i].classList.add('active');
+  }
+})()

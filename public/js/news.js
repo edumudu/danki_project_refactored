@@ -1,5 +1,7 @@
-$(function(){
-    $('select[name=categoria]').change(function(){
-        location.href = `/news/${$(this).val()}`;
-    })
-})
+(function () {
+  const select = document.querySelector('select[name=categoria]');
+
+  select.addEventListener('change', function () {
+    location.href = `/news/${this.value}`;
+  });
+})()

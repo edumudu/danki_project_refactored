@@ -1,35 +1,35 @@
-$(function(){
-    $('form.ajax').ajaxForm({
-        dataType: "JSON",
-        beforeSend: function(){
-            $('form.ajax').animate({opacity: 0.7})
-            $('form.ajax [type=submit]').attr('disabled', true);
-        },
-        success: function(data){
-            if(data.success){
-                $('body').prepend(`<div class="success float">
-                   ${data.message}!
-                </div>`)
+(function () {
+  Array.from(document.querySelectorAll('form.ajax'), form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-                setTimeout(function(){
-                    $('div.success').remove();
-                },5000)
+      this.style.opacity = 0.7;
+      this.querySelector('[type=submit]').setAttribute('disabled', true);
 
-                if($('form.ajax').hasClass('reset'))
-                    $('form.ajax')[0].reset();
-            }else{
-                $('body').prepend(`<div class="error float">
-                    ${data.message}<br />
-                </div>`)
+      const alertMessage = document.createElement('div');
+      alertMessage.classList.add('float');
 
-                setTimeout(function(){
-                    $('div.error').remove();
-                },5000)
-            }
-        },
-        complete: function(){
-            $('form.ajax').animate({opacity: 1})
-            $('form.ajax [type=submit]').attr('disabled', false);
-        }
+      fetch(form.getAttribute('action'), {
+        method: form.getAttribute('method'),
+        body: JSON.stringify(new FormData(form))
+      })
+        .then(({ data }) => {
+          alertMessage.classList.add('success');
+          alertMessage.innerHTML = data.message;
+
+          form.reset();
+        })
+        .catch(({ data }) => {
+          alertMessage.innerHTML = data.message;
+          alertMessage.classList.add('error');
+        })
+        .finally(() => {
+          document.prepend(alertMessage);
+          setTimeout(() => alertMessage.remove(), 5000);
+
+          this.style.opacity = 1;
+          this.querySelector('[type=submit]').setAttribute('disabled', false);
+        })
     })
-})
+  })
+})()
