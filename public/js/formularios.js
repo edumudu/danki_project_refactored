@@ -9,7 +9,7 @@
 
       fetch('/ajax/formularios.php', {
         method: 'post',
-        body: JSON.stringify(new FormData(form))
+        body: new FormData(form)
       })
         .then(() => {
           const success = document.querySelector('.success');

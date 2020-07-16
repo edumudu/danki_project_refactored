@@ -622,7 +622,7 @@ div.paginacao a.active{background-color: rgba(0,0,0,0.14);}
     body{overflow-x: hidden;}
     .panel-top{padding-left:0;}
     .panel-top > div{width: calc(100vw - 17px);}
-    aside{display: none;width: 0;}
+    aside{width: 0;}
 
     .box-metricas-single{width: 100%;flex-basis: 100%;}
 }
