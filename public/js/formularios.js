@@ -1,32 +1,35 @@
-$(function(){
-    $('body').on('submit', 'form.ajax-form', function(e){
-        e.preventDefault();
+(function () {
+  Array.from(document.querySelectorAll('form.ajax-form'), form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-        let form = $(this),
-            loader = $('#ajax-loader');
-        $.ajax({
-            url: `ajax/formularios.php`,
-            method: 'POST',
-            datatype: 'JSON',
-            data: form.serialize(),
-            beforeSend: function(){
-                loader.css('display','flex');
-            }
-        }).done(function(data){
-            loader.fadeOut();
+      const loader = document.querySelector('#ajax-loader');
 
-            if(data.success){
-                form.trigger('reset');
-                $('.success').fadeIn();
-                setTimeout(function(){
-                    $('.success').fadeOut();
-                }, 3000)
-            }else{
-                $('.fail').fadeIn();
-                setTimeout(function(){
-                    $('.fail').fadeOut();
-                }, 3000)
-            }
+      loader.style.display = 'flex';
+
+      fetch('/ajax/formularios.php', {
+        method: 'post',
+        body: JSON.stringify(new FormData(form))
+      })
+        .then(() => {
+          const success = document.querySelector('.success');
+
+          success.style.display = 'block';
+          form.reset();
+
+          setTimeout(function () {
+            success.style.display = 'none';
+          }, 3000)
         })
-    })
-})
+        .catch(() => {
+          const success = document.querySelector('.fail');
+          success.style.display = 'block';
+
+          setTimeout(function () {
+            success.style.display = 'none';
+          }, 3000)
+        })
+        .finally(() => loader.style.display = 'none')
+    });
+  });
+})()

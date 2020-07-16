@@ -1,4 +1,4 @@
-(function(){
+(function () {
   document.querySelector('nav.mobile i').addEventListener('click', function () {
     const menu = document.querySelector('nav.mobile ul');
     const icon = this;
