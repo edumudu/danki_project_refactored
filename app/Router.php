@@ -36,7 +36,7 @@ class Router
     {
       $method = strtoupper($method);
       if (!isset($this->routes[$method])) {
-        return null;
+        return header('Location: /page-not-found');
       }
 
       foreach($this->routes[$method] as $route => $callback) {
@@ -47,7 +47,7 @@ class Router
         }
       }
 
-      return null;
+      return header('Location: /page-not-found');
     }
 
     public function get(string $uri, string $action) : Router
