@@ -17,8 +17,8 @@ class NewsController extends Controller
       $notice = new Notice;
       $site = new Site;
 
-      $categories = $category->all(['*'], null, 'order_id ASC');
-      $news = $notice->all(['*'], null, 'date ASC');
+      $categories = $category->select()->orderBy('order_id')->get();
+      $news = $notice->select()->orderBy('date')->get();
 
       $news = array_map(function($News) use ($categories) {
         $categoryIndex = array_search($News['categoria_ref'], array_column($categories, 'id'));
@@ -55,8 +55,8 @@ class NewsController extends Controller
 
       $categorySelected = $category->selectSingle(['slug' => $categoryName]);
       $categorySelected['name'] = $categoryName;
-      $categories = $category->all(['*'], null, 'order_id ASC');
-      $news = $notice->select([])->where(['categoria_ref' => $categorySelected['id']])->get();
+      $categories = $category->select()->orderBy('order_id')->get();
+      $news = $notice->select()->where(['categoria_ref' => $categorySelected['id']])->get();
 
       $news = array_map(function($News) use ($categories) {
         $categoryIndex = array_search($News['categoria_ref'], array_column($categories, 'id'));

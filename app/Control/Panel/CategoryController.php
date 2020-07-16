@@ -26,20 +26,18 @@ class CategoryController extends ControllerPanel
 
     $currentPage = $request->query()->get('page', 1);
     $total_pages = ceil(count($this->category->all(['id'])) / $this->perPage);
-    $categorys = $this->category->all(
-      ['*'],
-      null,
-      'order_id ASC',
-      ($currentPage - 1) * $this->perPage,
-      $this->perPag
-    );
+    $categories = $this->category
+      ->select()
+      ->orderBy('order_id')
+      ->limit(($currentPage - 1) * $this->perPage, $this->perPage)
+      ->get();
 
     $view->render('templates/list-template', [
       "can_edit"    => $this->cargo >= $this->edit_level,
       "base_uri"    => $this->base_uri,
       "data" => [
         "total_pages" => $total_pages,
-        "results"     => $categorys,
+        "results"     => $categories,
         "currentPage" => $currentPage,
         "columns"     => $this->category->getFields()
       ],

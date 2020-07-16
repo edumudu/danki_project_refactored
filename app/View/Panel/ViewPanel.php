@@ -22,16 +22,12 @@ class ViewPanel
     {
         extract(array_merge($data, $this->default_data));
 
-        // ob_start();
-
         $this->page = $page;
 
         include page($this->page_head);
         include page($need_aside ? $this->aside : '');
         include page('panel/' . $page);
         include page($this->footer);
-
-        // return ob_get_clean();
     }
 
     public function add_script($script) : void

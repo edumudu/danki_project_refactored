@@ -26,13 +26,11 @@ class DepoimentosController extends ControllerPanel
 
     $currentPage = $request->query()->get('pagina', 1);
     $total_pages = ceil(count($this->depoiment->all(['id'])) / $this->perPage);
-    $depoiments = $this->depoiment->all(
-      ['*'],
-      null,
-      'order_id ASC',
-      ($currentPage - 1) * $this->perPage,
-      $this->perPag
-    );
+    $depoiments = $this->depoiment
+      ->select()
+      ->orderBy('order_id')
+      ->limit(($currentPage - 1) * $this->perPage, $this->perPage)
+      ->get();
 
     $view->render('templates/list-template', [
       "can_edit"    => $this->cargo >= $this->edit_level,
