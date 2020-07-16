@@ -11,7 +11,6 @@ class View
 
     protected $default_data = [
         'scripts' => [
-            'jquery-3.4.1.min.js',
             'functions.js',
             'formularios.js'
         ]
