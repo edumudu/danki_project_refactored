@@ -1,0 +1,40 @@
+section.extras {
+  padding: 40px 0;
+  background-color: #404580;
+  color: white;
+}
+
+section.extras .depoimentos.flex { align-items: flex-start; }
+
+section.extras .title {
+  font-weight: 300;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+
+section.extras .depoimento-single {
+  padding: 15px 0;
+  border-bottom: 1px solid #5056A0;
+}
+
+section.extras .depoimento-single p {
+  font-size: 15px;
+  font-weight: 300;
+}
+
+section.extras .depoimento-single p.author {
+  font-weight: bold;
+  font-size: 17px;
+  margin-top: 5px;
+}
+
+section.extras ul {
+  padding: 20px 0;
+  list-style-position: inside;
+}
+
+section.extras ul li {
+  margin-bottom: 15px;
+  font-size: 15px;
+  font-weight: 300;
+}

@@ -1,0 +1,59 @@
+header {
+  padding: 20px 0;
+  background-color: #3D437A;
+}
+
+header .logo {
+  color:white;
+  margin: 0 15px;
+  font-weight: bold;
+  font-size: 23px;
+  text-transform: uppercase;
+}
+
+header nav.mobile{ display: none; }
+
+header nav.mobile ul {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: 70px;
+  display: none;
+  width: 100%;
+  background-color: white;
+  text-align: center;
+}
+
+header nav.mobile ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  font-size: 17px;
+}
+
+header nav.mobile ul li a {
+  color: #444;
+  display: block;
+}
+
+header nav.mobile i {
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+header nav.desktop ul li {
+  display: inline-block;
+  padding: 10px 0;
+  margin: 0 15px;
+  color: white;
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+header nav.desktop ul a { color: inherit; }
+header nav.desktop ul a:hover{ text-decoration: underline; }
+
+@media screen and (max-width: 700px){
+  header nav.desktop{ display: none; }
+  header nav.mobile{ display: block; }
+}

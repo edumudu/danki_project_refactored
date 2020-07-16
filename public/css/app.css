@@ -1,0 +1,19 @@
+@import './variables.css';
+@import './global.css';
+@import './general.css';
+
+@import './unique-components/the-header.css';
+@import './unique-components/the-footer.css';
+
+@import './components/alert.css';
+@import './components/slider.css';
+@import './components/paginator.css';
+@import './components/author-description.css';
+@import './components/skills.css';
+@import './components/extras.css';
+@import './components/buttons.css';
+
+@import './pages/e-404.css';
+@import './pages/contact.css';
+@import './pages/news.css';
+@import './pages/news-single.css';

@@ -1,0 +1,43 @@
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  padding: 0 7px;
+}
+
+table {
+  min-width: 900px;
+  width: 100%;
+  margin: 20px 0;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+table tr {
+  color: #777;
+  border-bottom: 1px solid #ccc;
+}
+
+table td,
+table th { padding: 10px; }
+
+table td img {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+table thead tr {
+  background-color: #0091ea;
+  color: white;
+}
+
+.order-wrapper {
+  text-align: center;
+  width: 100%;
+}
+
+.order-wrapper i {
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #777;
+}

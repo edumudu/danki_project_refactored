@@ -1,0 +1,51 @@
+header {
+  padding: 10px 0;
+  background-color: #78909c;
+}
+
+header > .container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  align-items: center;
+  max-width: none;
+}
+
+.icons-header { display: flex; }
+
+.icons-header > div {
+  margin: 0 10px;
+  position: relative;
+}
+
+.icons-header a {
+  color: white;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.icons-header a span { font-size: 16px; }
+
+.icons-header > div a::after {
+  content: '';
+  display: block;
+  background-color: rgba(255,255,255,0.8);
+  height: 2px;
+  width: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icons-header > div:hover a::after,
+.icons-header > div a.active::after {
+  transition: 1s;
+  width: 100%;
+}
+
+.menu-btn {
+  cursor: pointer;
+  font-size: 23px;
+  color: white;
+}
