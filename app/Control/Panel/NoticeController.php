@@ -64,7 +64,7 @@ class NoticeController extends ControllerPanel
     $request = new Request;
 
     $data = $request->only(['title', 'conteudo', 'categoria_ref']);
-    $data['slug'] = str_replace(' ', '-', mb_strtolower($data['title']));
+    $data['slug'] = generateSlug($data['title']);;
     $data['date'] = date("Y-m-d");
 
     $img = $request->files($this->image_field);;

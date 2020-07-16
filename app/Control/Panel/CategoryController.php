@@ -64,7 +64,7 @@ class CategoryController extends ControllerPanel
     $request = new Request;
     
     $data = $request->only(['name']);
-    $data['slug'] = str_replace(' ', '-', mb_strtolower($data['name']));
+    $data['slug'] = generateSlug($data['name']);
 
     $this->category->create($data);
 
@@ -97,7 +97,7 @@ class CategoryController extends ControllerPanel
     $request = new Request;
 
     $data = $request->only(['name']);
-    $data['slug'] = str_replace(' ', '-', mb_strtolower($data['name']));
+    $data['slug'] = generateSlug($data['name']);;
 
     $this->category->update($data, ['id' => (int)$request->query()->get('id')]);
 

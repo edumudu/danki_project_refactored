@@ -101,7 +101,8 @@ class Model extends DB
    * @return bool Um booleano representado o sucesso ou falha da inserção
    */
 
-  public function create($data){
+  public function create($data)
+  {
 
     if($this->is_orded_by_id){
       $data['order_id'] = (int)DB::connect()
