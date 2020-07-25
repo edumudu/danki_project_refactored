@@ -9,5 +9,5 @@
   border-radius: 10px;
 }
 
-.btn-edit { background-color: #F4B03E; }
-.btn-delete { background-color: #E05C4E; }
+.btn-edit { background-color: var(--yellow); }
+.btn-delete { background-color: var(--orange); }

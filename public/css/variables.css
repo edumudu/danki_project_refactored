@@ -1,3 +1,15 @@
 :root {
   --transition: 0.3s;
+  --danger: #f75353;
+  --success: #008000;
+  --black: #000;
+  --gray: #777;
+  --gray-dark: #444;
+  --gray-light: #ccc;
+  --blue: #0091ea;
+  --blue-dark: #0d47a1;
+  --green: #00C59E;
+  --yellow: #F4B03E;
+  --orange: #E05C4E;
+  --purple: #404580;
 }

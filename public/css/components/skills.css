@@ -1,9 +1,9 @@
 section.especialiades {
-  background-color: #E2E2E2;
+  background-color: #999;
   padding: 40px 0;
 }
 
-section.especialiades h2.title {
+section.especialiades .title {
   font-size: 30px;
   color: #999;
   font-weight: 300;
@@ -15,19 +15,19 @@ section.especialiades .box-especialidade {
   margin: 40px 0;
 }
 
-section.especialiades .box-especialidade h2 {
+section.especialiades .box-especialidade .icon {
   font-size: 40px;
-  color: #404580;
+  color: var(--purple);
 }
 
-section.especialiades .box-especialidade h3 {
+section.especialiades .box-especialidade .skill {
   font-weight: 300;
   color: #BABABA;
   font-size: 25px;
 }
 
 section.especialiades .box-especialidade p {
-  color: #444;
+  color: var(--gray-dark);
   font-size: 15px;
   margin-top: 10px;
 }

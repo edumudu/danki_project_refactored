@@ -2,8 +2,12 @@
   <div id="map"></div>
 
   <div class="container">
-    <form method="POST" class="ajax-form">
+    <form
+      method="POST"
+      class="ajax-form"
+    >
       <input
+        class="form-field"
         type="text"
         name="name"
         placeholder="Nome"
@@ -11,6 +15,7 @@
       />
 
       <input
+        class="form-field"
         type="email"
         name="email"
         placeholder="E-mail"
@@ -18,6 +23,7 @@
       />
 
       <input
+        class="form-field"
         type="text"
         name="telefone"
         placeholder="Telefone"
@@ -25,12 +31,16 @@
       />
 
       <textarea
+        class="form-field"
         name="messagem"
         placeholder="Sua menssgem"
         required
       ></textarea>
 
-      <button type="submit">
+      <button
+        type="submit"
+        class="btn"
+      >
         Enviar
       </button>
     </form>

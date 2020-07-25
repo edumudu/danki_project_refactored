@@ -15,10 +15,10 @@
 
 .success {
   background-color: #DFF2BF;
-  color: #008000;
+  color: var(--success);
 }
 
-.fail { background-color: #f75353; }
+.fail { background-color: var(--danger); }
 
 .float,
 .float {

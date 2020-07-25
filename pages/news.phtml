@@ -1,39 +1,3 @@
-<?php
-// $categoria = isset($thisUrl[1]) ? Painel::selectSingle('tb_site.categorias',['slug' => $thisUrl[1]]) : null;
-
-// $query = Painel::buildQuerySelect('tb_site.noticias');
-// if($categoria['name'] != '')
-//     $query .= " WHERE categoria_ref = $categoria[id]";
-
-// if(isset($_POST['buscar'])){
-//     $busca = '%'.$_POST['parametro'].'%';
-//     if(strstr($query, 'WHERE') !== false)
-//         $query .= " AND `title` LIKE :busca ";
-//     else
-//         $query .= " WHERE `title` LIKE :busca ";
-
-// }
-
-// $noticias = mySQL::connect()->prepare($query.' ORDER BY `date` DESC LIMIT :start, :limit');
-
-// $totalPaginas = mySQL::connect()->prepare($query);
-// if(isset($busca))
-//     $totalPaginas->execute(['busca' => $busca]);
-// else
-//     $totalPaginas->execute();
-// $totalPaginas = ceil($totalPaginas->rowCount() / $porPag);
-// if($pagina > $totalPaginas)
-//     $pagina = 1;
-// $start = ($pagina - 1) * $porPag;
-
-// $noticias->bindParam(':start',$start, PDO::PARAM_INT);
-// $noticias->bindParam(':limit',$porPag, PDO::PARAM_INT);
-// if(isset($busca))
-//     $noticias->bindParam(':busca', $busca);
-// $noticias->execute();
-// $noticias = $noticias->fetchAll();        
-?>
-
 <section class="header-noticias">
   <div class="container">
     <h2>
@@ -55,14 +19,19 @@
         </h3>
 
         <form method="GET">
-          <input type="text" name="parametro" placeholder="O que deseja procurar?" required />
+          <input
+            class="form-field"
+            type="text"
+            name="parametro"
+            placeholder="O que deseja procurar?"
+            required
+          />
 
           <button type="submit">
             pesquisar
           </button>
         </form>
       </div>
-      <!--box-content-sizebar-->
 
       <div class="box-content-sidebar">
         <h3>
@@ -70,7 +39,10 @@
         </h3>
 
         <form>
-          <select name="categoria">
+          <select
+            class="form-field"
+            name="categoria"
+          >
             <option value="" selected>
               Todas as categorias
             </option>
@@ -83,7 +55,6 @@
           </select>
         </form>
       </div>
-      <!--box-content-sizebar-->
 
       <div class="box-content-sidebar">
         <h3>
@@ -110,7 +81,6 @@
           </div>
         </div>
       </div>
-      <!--box-content-sizebar-->
     </aside>
 
     <main>
@@ -145,7 +115,6 @@
               Leia Mais
             </a>
           </div>
-          <!--box-sigle-content-->
 
       <?php
           }
@@ -167,7 +136,3 @@
     </main>
   </div>
 </section>
-
-<?php
-//include 'news_single.php';
-?>

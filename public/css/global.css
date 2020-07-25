@@ -31,9 +31,7 @@ input {
   appearance: none;
 }
 
-textarea { resize: vertical; }
+textarea { resize: none; }
 
 ul[class],
-ol[class] {
-  list-style-type: none;
-}
+ol[class] { list-style-type: none; }

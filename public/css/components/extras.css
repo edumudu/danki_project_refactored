@@ -1,6 +1,6 @@
 section.extras {
   padding: 40px 0;
-  background-color: #404580;
+  background-color: var(--purple);
   color: white;
 }
 
@@ -22,18 +22,18 @@ section.extras .depoimento-single p {
   font-weight: 300;
 }
 
-section.extras .depoimento-single p.author {
+section.extras .depoimento-single .author {
   font-weight: bold;
   font-size: 17px;
   margin-top: 5px;
 }
 
-section.extras ul {
+section.extras .services {
   padding: 20px 0;
   list-style-position: inside;
 }
 
-section.extras ul li {
+section.extras .services .service {
   margin-bottom: 15px;
   font-size: 15px;
   font-weight: 300;
