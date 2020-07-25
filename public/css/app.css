@@ -11,6 +11,7 @@
 @import './components/author-description.css';
 @import './components/skills.css';
 @import './components/extras.css';
+@import './components/form.css';
 @import './components/buttons.css';
 
 @import './pages/e-404.css';

@@ -13,6 +13,7 @@
 
           <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
             <textarea
+              class="form-field"
               id="name"
               type="text"
               name="<?= $value['name'] ?>"
@@ -23,6 +24,7 @@
           <?php } else if (isset($img_field) && $value['name'] === $img_field) { ?>
             <label class="fake-file">Upload
               <input
+                class="form-field"
                 type="file"
                 accept="image/*"
                 name="<?= $value['name'] ?>" 
@@ -30,6 +32,7 @@
             </label>
           <?php } else { ?>
             <input
+              class="form-field"
               id="name"
               type="text"
               name="<?= $value['name'] ?>"
@@ -39,15 +42,15 @@
           <?php } ?>
         </label>
       </div>
-      <!--form-group-->
     <?php } ?>
 
     <div class="form-group">
-      <button class="btn-form" type="submit">
+      <button
+        class="btn-form"
+        type="submit"
+      >
         Atualizar
       </button>
     </div>
-    <!--form-group-->
   </form>
 </section>
-<!--box-content-->

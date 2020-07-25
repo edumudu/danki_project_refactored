@@ -16,6 +16,7 @@
 
           <?php if ($value['type'] === 'longtext' || $value['type'] === 'text') { ?>
             <textarea
+              class="form-field"
               id="name"
               type="text"
               name="<?= $value['name'] ?>"
@@ -26,6 +27,7 @@
               Upload
 
               <input
+                class="form-field"
                 type="file"
                 accept="image/*"
                 name="<?= $value['name'] ?>"
@@ -33,6 +35,7 @@
             </label>
           <?php } else { ?>
             <input
+              class="form-field"
               id="name"
               type="text"
               name="<?= $value['name'] ?>"
@@ -41,7 +44,6 @@
           <?php } ?>
         </label>
       </div>
-      <!--form-group-->
     <?php } ?>
 
     <div class="form-group">
@@ -52,7 +54,5 @@
         Cadastrar
       </button>
     </div>
-    <!--form-group-->
   </form>
 </section>
-<!--box-content-->

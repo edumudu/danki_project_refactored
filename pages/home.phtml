@@ -1,143 +1,151 @@
 <section class="banner-main">
-        <div class="overlay"></div>
+  <div class="slider">
+    <?php
+    foreach ($slides as $value) {
+    ?>
+      <div
+        class="slide-img"
+        style="background-image: url('<?= asset('images/uploads/' . $value['slide']) ?>');"
+      ></div>
+    <?php } ?>
 
-        <div class="slider">
-            <?php
-              foreach($slides as $value){
-            ?>
-              <div
-                class="slide-img"
-                style="background-image: url('<?= asset('images/uploads/'. $value['slide']) ?>');"
-              ></div>
-            <?php }?>
+    <div class="bullets"></div>
+  </div>
 
-            <div class="bullets"></div>
-        </div>
+  <div class="container flex center">
+    <form
+      method="POST"
+      class="form-email-catch ajax-form"
+    >
+      <h2>
+        Qual o seu melhor e-mail?
+      </h2>
 
-        <div class="container flex center">
-            <form method="POST" class="ajax-form">
-              <h2>
-                Qual o seu melhor e-mail?
-              </h2>
+      <input type="email" name="email" required />
 
-              <input
-                type="email"
-                name="email"
-                required
-              />
+      <button
+        type="submit"
+        class="btn btn-fluid"
+      >
+        Cadastrar
+      </button>
+    </form>
+  </div>
+</section>
 
-              <button type="submit">
-                Cadastrar
-              </button>
-            </form>
-        </div>
-    </section><!--banner-main-->
+<section
+  id="about"
+  class="descricao-author"
+>
+  <div class="container flex space">
+    <div class="c2">
+      <h2>
+        <?= $name_author ?>
+      </h2>
 
-    <section id="about" class="descricao-author">
-        <div class="container flex space">
-          <div class="c2">
-            <h2>
-              <?= $name_author ?>
-            </h2>
+      <p>
+        <?= $description ?>
+      </p>
+    </div>
 
-            <p>
-              <?= $description ?>
-            </p>
-          </div>
+    <div class="c2">
+      <img
+        src="<?= asset('images/pp.jpg') ?>"
+        alt="Eduardo Wesley Resende"
+      />
+    </div>
+  </div>
+</section>
 
-          <div class="c2">
-            <img src="<?= asset('images/pp.jpg') ?>" />
-          </div>
-        </div>
-    </section><!--descricao-author-->
+<section
+  id="services"
+  class="especialiades"
+>
+  <div class="container">
+    <h2 class="title">
+      Especialidade
+    </h2>
 
-    <section id="services" class="especialiades">
-      <div class="container">
-        <h2 class="title">
-          Especialidade
+    <div class="content flex">
+      <div class="box-especialidade c3">
+        <h2 class="icon">
+          <i class="<?= $icone_1 ?>"></i>
         </h2>
 
-        <div class="content flex">
-          <div class="box-especialidade c3">
-            <h2>
-              <i class="<?= $icone_1 ?>"></i>
-            </h2>
+        <h3 class="skill">
+          CSS3
+        </h3>
 
-            <h3>
-              CSS3
-            </h3>
+        <p>
+          <?= $descricao_1 ?>
+        </p>
+      </div>
 
-            <p>
-              <?= $descricao_1 ?>
-            </p>
-          </div><!--box-especialidade-->
+      <div class="box-especialidade c3">
+        <h2 class="icon">
+          <i class="<?= $icone_2 ?>"></i>
+        </h2>
 
-          <div class="box-especialidade c3">
-            <h2>
-              <i class="<?= $icone_2 ?>"></i>
-            </h2>
+        <h3 class="skill">
+          HTML5
+        </h3>
 
-            <h3>
-              HTML5
-            </h3>
+        <p>
+          <?= $descricao_2 ?>
+        </p>
+      </div>
 
-            <p>
-              <?= $descricao_2 ?>
-            </p>
-          </div><!--box-especialidade-->
+      <div class="box-especialidade c3">
+        <h2 class="icon">
+          <i class="<?= $icone_3 ?>"></i>
+        </h2>
 
-          <div class="box-especialidade c3">
-            <h2>
-              <i class="<?= $icone_3 ?>"></i>
-            </h2>
+        <h3 class="skill">
+          Javascript
+        </h3>
 
-            <h3>
-              Javascript
-            </h3>
-
-            <p>
-              <?= $descricao_3 ?>
-            </p>
-          </div><!--box-especialidade-->
-        </div><!--content-->
-      </div><!--container-->
-    </section><!--especialidades-->
+        <p>
+          <?= $descricao_3 ?>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="extras">
   <div class="container">
-      <div class="depoimentos flex">
-        <div class="c2">
-          <h2 class="title">
-            Depoimentos dos nossos clientes
-          </h2>
+    <div class="depoimentos flex">
+      <div class="c2">
+        <h2 class="title">
+          Depoimentos dos nossos clientes
+        </h2>
 
-          <?php foreach ($depoimentos as $value) { ?>
-            <div class="depoimento-single">
-              <p>
-                " <?= $value['depoimento']; ?> "
-              </p>
+        <?php foreach ($depoimentos as $value) { ?>
+          <div class="depoimento-single">
+            <p>
+              " <?= $value['depoimento']; ?> "
+            </p>
 
-              <p class="author">
-                <?= $value['name']; ?> - <?= $value['date']; ?>
-              </p>
-            </div>
+            <p class="author">
+              <?= $value['name']; ?> - <?= $value['date']; ?>
+            </p>
+          </div>
+        <?php } ?>
+      </div>
+
+      <div class="c2">
+        <h2 class="title">
+          Serviços
+        </h2>
+
+        <ul class="services">
+          <?php foreach ($services as $value) { ?>
+            <li class="service">
+              <?= $value['servico']; ?>
+            </li>
           <?php } ?>
-        </div>
-
-        <div class="c2">
-          <h2 class="title">
-            Serviços
-          </h2>
-
-          <ul>
-            <?php foreach ($services as $value) { ?>
-              <li>
-                <?= $value['servico']; ?>
-              </li>
-            <?php } ?>
-          </ul>
-        </div>
-      </div><!--flex-depoimentos-->
-  </div><!--container-->
-
-</section><!--extras-->
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

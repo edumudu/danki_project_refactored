@@ -26,12 +26,12 @@ header nav.mobile ul {
 
 header nav.mobile ul li {
   padding: 10px 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--gray-light);
   font-size: 17px;
 }
 
 header nav.mobile ul li a {
-  color: #444;
+  color: var(--gray-dark);
   display: block;
 }
 
