@@ -15,16 +15,14 @@
   }
 
   function asideIsVisible() {
-    return aside.style.width !== '0px';
+    return aside.offsetWidth !== '0';
   }
 
   document.querySelector('.menu-btn').addEventListener('click', function () {
     if (open) {
-      aside.style.width = 0;
-      panel.style.paddingLeft = 0;
+      panel.style.gridTemplateColumns = '0 1fr';
     } else {
-      aside.style.width = `${targetSize}px`;
-      panel.style.paddingLeft = `${targetSize}px`;
+      panel.style.gridTemplateColumns = `${targetSize}px 1fr`;
     }
 
     open = !open;

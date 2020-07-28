@@ -10,8 +10,17 @@ section.especialiades .title {
   text-align: center;
 }
 
+section.especialiades .content {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 40px;
+}
+
 section.especialiades .box-especialidade {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  flex: 1 1 300px;
   margin: 40px 0;
 }
 

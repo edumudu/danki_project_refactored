@@ -1,25 +1,24 @@
 body { background-color: rgb(225,225,225); }
 
 .panel-top {
-  padding-left: 300px;
-  height: 100%;
-  transition: padding-left var(--transition);
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: 100vh;
 }
 
-.panel-top > div {
-  flex: 1 70%;
-  min-height: 100%;
+.panel-content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
 }
 
-.panel-top > div > main {
-  padding: 20px 2%;
-  
-  display :-ms-flexbox;
+.panel-top .panel-content > main {
   display: flex;
   flex-wrap: wrap;
-  -ms-flex-pack: justify;
+  padding: 20px 2%;
   justify-content: space-between;
   align-items: stretch;
+  overflow-y: auto;
 }
 
 .box-content {
@@ -58,7 +57,5 @@ body { background-color: rgb(225,225,225); }
 .busca-result p { font-weight: 16px; }
 
 @media screen and (max-width: 768px){
-  body{ overflow-x: hidden; }
-  .panel-top{ padding-left:0; }
-  .panel-top > div { width: calc(100vw - 17px); }
+  .panel-top{ grid-template-columns: 0 1fr; }
 }
