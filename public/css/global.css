@@ -12,12 +12,9 @@ body {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
-
-body > main { flex: 1; }
 
 img { max-width: 100%; }
 

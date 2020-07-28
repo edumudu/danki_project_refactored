@@ -15,8 +15,12 @@
 
 .header-noticias h2 > b { color: #F40B5C; }
 section.container-portal { padding: 50px 0; }
-section.container-portal > .container { display: flex; }
-section.container-portal aside{ flex: 1 30%; }
+
+section.container-portal > .container {
+  display: grid;
+  grid-template-columns: minmax(250px, 30%) 1fr;
+  column-gap: 50px;
+}
 
 .box-content-sidebar {
   background-color: #ddd;
@@ -70,7 +74,6 @@ section.container-portal aside{ flex: 1 30%; }
 
 section.container-portal main {
   flex: 1 70%;
-  padding-left: 50px;
 }
 
 .header-content-portal {

@@ -1,14 +1,7 @@
 aside {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 100%;
   background-color: #455a64;
-
-  position: fixed;
-  top: 0;
-  left: 0;    
-  width: 300px;
-  transition: width var(--transition);
 }
 
 aside > .aside-wrapper {
@@ -42,10 +35,6 @@ aside .avatar-user i {
   justify-content: center;
   align-items: center;
   height: 100%;
-}
-
-@media screen and (max-width: 768px){
-  aside{ width: 0; }
 }
 
 @media screen and (max-width: 400px){

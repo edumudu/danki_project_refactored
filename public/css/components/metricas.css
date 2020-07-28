@@ -1,14 +1,13 @@
 .box-metricas {
-  margin-top: 16px;
-  padding: 0 15px;
   display: flex;
   flex-wrap: wrap;
+  margin-top: 16px;
+  gap: 10px;
+  padding: 0 15px;
 }
 
 .box-metricas-single {
-  flex: 1 33.3%;
-  width: 33.3%;
-  border: 5px solid white;
+  flex: 1 250px;
   text-align: center;
 }
 
@@ -26,11 +25,4 @@
 .box-metricas-wrapper p {
   padding: 10px 0;
   font-size: 26px;
-}
-
-@media screen and (max-width: 1024px) {
-  .box-metricas-single {
-    width: 50%;
-    flex-basis: 50%;
-  }
 }
